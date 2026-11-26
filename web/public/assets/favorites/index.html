@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2e5e7">
+  <meta name="description" content="一本从四季翻进歌里的双页日记。">
+  <title>收藏收藏</title>
+  <link rel="stylesheet" href="journal.css">
+  <script src="journal.js" defer></script>
+  <script src="desk-light.js" defer></script>
+</head>
+<body>
+  <canvas class="sun-desk" id="sun-desk-canvas" aria-hidden="true"></canvas>
+  <main class="journal" aria-label="收藏收藏">
+    <div class="desk-side desk-left">
+      <div class="desk-portrait" role="img" aria-label="留着花饰的蓝眼少女铅笔画"></div>
+      <div class="desk-cassette" role="img" aria-label="木桌左下角斜放的手绘透明磁带"></div>
+      <div class="desk-sunlight" aria-hidden="true"></div>
+    </div>
+    <div class="desk-side desk-right">
+      <div class="desk-portrait" role="img" aria-label="阳光下的少女铅笔画，画稿下方摆着一支铅笔"></div>
+      <div class="desk-sunlight" aria-hidden="true"></div>
+    </div>
+    <div class="book" id="book" data-spread="index" aria-label="展开的日记本">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="heart-tabs" id="heart-tabs" role="tablist" aria-label="右侧爱心内容切换">
+        <button class="heart-tab heart-tab--lyrics is-active" type="button" role="tab" data-tab="lyrics" aria-selected="true" aria-label="歌词"></button>
+        <button class="heart-tab heart-tab--notes" type="button" role="tab" data-tab="notes" aria-selected="false" aria-label="留言"></button>
+      </div>
+
+      <section class="page page--left index-page" id="first" aria-label="第 1 页 · 一树四季">
+        <div class="journal-profile" id="journal-profile">
+          <button class="journal-avatar" id="journal-avatar" type="button" aria-label="上传头像">
+            <img class="journal-avatar-img" id="journal-avatar-img" alt="" hidden>
+            <span class="journal-avatar-empty" aria-hidden="true"></span>
+          </button>
+          <input class="journal-avatar-input" id="journal-avatar-input" type="file" accept="image/*" hidden>
+          <div class="journal-profile-meta">
+            <input class="journal-profile-name" id="journal-profile-name" type="text" maxlength="24" placeholder="昵称" aria-label="昵称" autocomplete="off" spellcheck="false">
+            <input class="journal-profile-bio" id="journal-profile-bio" type="text" maxlength="60" placeholder="个性签名" aria-label="个性签名" autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+        <iframe src="首页左半部分/index.html?journal=seasons" title="一树四季"></iframe>
+      </section>
+      <section class="page page--right dedication-page" id="fourth" aria-label="第 4 页 · 献词" inert aria-hidden="true">
+        <iframe data-src="内容右半部分/index.html?journal=dedication" title="献给最亲爱的你"></iframe>
+      </section>
+
+      <div class="cast-shadow cast-shadow--left" aria-hidden="true"></div>
+      <div class="cast-shadow cast-shadow--right" aria-hidden="true"></div>
+
+      <div class="leaf" id="leaf">
+        <section class="page page--right leaf-face leaf-front" id="second" aria-label="第 2 页 · 花间池塘">
+          <iframe src="首页右半部分/index.html?journal=pond" title="花间池塘"></iframe>
+        </section>
+        <section class="page page--left leaf-face leaf-back" id="third" aria-label="第 3 页 · 手绘唱片" inert aria-hidden="true">
+          <iframe data-src="内容左半部分/index.html?journal=player" title="手绘唱片播放器"></iframe>
+        </section>
+      </div>
+
+      <canvas class="sun-book" id="sun-book-canvas" aria-hidden="true"></canvas>
+    </div>
+  </main>
+  <div class="sun-atmosphere" aria-hidden="true"></div>
+</body>
+</html>

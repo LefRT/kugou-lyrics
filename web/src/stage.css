@@ -1,0 +1,117 @@
+/* The user's composition: original seasons on the left, a blue letter and
+   the original round-key typewriter on the right. */
+/* 信纸字体：中文 = 新叶念体，英文 = Signatura Monoline Script（随 Vite 打包进 dist/assets） */
+@font-face{font-family:'LetterCN';src:url('./assets/fonts/letter-cn.otf') format('opentype');font-display:swap}
+@font-face{font-family:'LetterEN';src:url('./assets/fonts/letter-en.otf') format('opentype');font-display:swap}
+:root[data-stage-theme='night']{--stage-page-bg:#112b85}
+:root[data-stage-theme='day']{--stage-page-bg:#f3f2ea}
+body.paper-mode{overflow:hidden;background:var(--stage-page-bg)}body.paper-mode::after{display:none}
+.letter-stage{--stage-bottom:clamp(28px,5.5vh,64px);position:fixed;inset:0;overflow:hidden;isolation:isolate;color:#35402e;background:var(--stage-page-bg);font-family:'LetterEN',Georgia,'LetterCN','Yu Gothic','Noto Sans JP','KaiTi','STKaiti','楷体',serif;user-select:none}
+.letter-stage *{box-sizing:border-box}
+.letter-stage[data-video] :is(.letter-header,.letter-controls,.letter-page-nav){visibility:hidden;pointer-events:none}
+.letter-stage[data-video] .letter-keyboard .key{transition:none}
+.letter-ground,.letter-ink,.letter-birds{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.letter-ground{z-index:0}.letter-ink{z-index:3}.letter-birds{z-index:4}
+.letter-water{position:absolute;inset:0;display:block;width:100%;height:100%;z-index:1;pointer-events:none}
+.letter-seasons{position:absolute;left:0;top:0;width:52%;height:100%;z-index:2;pointer-events:none;mask-image:linear-gradient(to right,#000 0 97%,transparent 100%)}
+/* 完整插画仅去除白色底色，随第一幅画对位并避开播放控件。 */
+.letter-illustration{position:absolute;z-index:2;display:block;object-fit:contain;object-position:center top;pointer-events:none;user-select:none}
+.letter-earbuds{position:absolute;z-index:2;left:27%;top:3.5%;width:min(47%,56vh);height:auto;transform:translateX(-50%);display:block;pointer-events:none;user-select:none;filter:drop-shadow(0 4px 10px rgba(24,52,74,.14));mask-image:linear-gradient(to right,transparent 0%,#000 3%,#000 97%,transparent 100%)}
+.letter-stage[data-skin='night'] .letter-earbuds{filter:brightness(.86) drop-shadow(0 4px 12px rgba(2,11,59,.36))}
+.letter-flight{position:absolute;left:0;top:0;width:56%;height:100%;pointer-events:none}
+.letter-flight-back{z-index:1}.letter-flight-front{z-index:2}
+.letter-stage button{appearance:none;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer;padding:0}
+.letter-stage button:focus-visible{outline:1px solid #963d35;outline-offset:5px}.letter-stage button:disabled{opacity:.25;cursor:default}
+.letter-stage button svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.letter-header{position:absolute;z-index:6;left:4%;right:4%;top:27px;display:flex;align-items:center;justify-content:space-between;color:#235469;font-size:12px;letter-spacing:.15em}
+.letter-back{display:flex;align-items:center;gap:12px;padding:4px 6px;font-family:Georgia,"PingFang SC","Microsoft YaHei",sans-serif;font-size:28px!important;line-height:1}
+.letter-paper{--sheet-blue:#2854d7;--sheet-blue-1:#2b50b7;--sheet-blue-2:#3456b2;--sheet-blue-3:#3b5cac;--sheet-shadow:#20303d24;position:absolute;z-index:2;left:76%;top:9%;width:min(36vw,44.3vh);height:62%;transform:translateX(-50%)}
+.letter-paper[data-stacked]{--sheet-shadow:#13254a40}
+.letter-sheet{
+ --shade:var(--sheet-shade,0%);
+ --blue-first:color-mix(in srgb,var(--sheet-blue),var(--sheet-blue-1) clamp(0%,calc(var(--shade) / .26),100%));
+ --blue-second:color-mix(in srgb,var(--blue-first),var(--sheet-blue-2) clamp(0%,calc((var(--shade) - 26%) / .26),100%));
+ background:color-mix(in srgb,var(--blue-second),var(--sheet-blue-3) clamp(0%,calc((var(--shade) - 52%) / .26),100%));
+ position:absolute;inset:0;box-shadow:0 calc(4px + var(--sheet-lift,0px)) calc(12px + var(--sheet-lift,0px)) var(--sheet-shadow),0 1px 2px #13254a36;container-type:size;pointer-events:none;transform-origin:0 0}
+.letter-sheet[hidden]{display:none}
+.letter-sheet::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.065;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23grain)' d='M0 0h240v240H0z'/%3E%3C/svg%3E")}
+.letter-sheet::after{content:'';position:absolute;inset:0;background:linear-gradient(112deg,#5176ea14,transparent 44%,#071b6912);box-shadow:inset -1px -1px #13254a35;pointer-events:none}
+.letter-sheet-ink{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.letter-page-nav{position:absolute;z-index:5;top:calc(100% + 5px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:5px;color:#235469;font:11px Georgia,serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.letter-paper[data-stacked] .letter-page-nav{top:calc(100% + 13px)}
+.letter-page-nav[hidden]{display:none}
+.letter-page-nav button{min-width:29px;min-height:24px;font:19px/1 Georgia,serif}
+.letter-page-nav button:hover:not(:disabled){color:#9e4536}
+.letter-rules{position:absolute;inset:3.5% 4.55% 3.5%;border:1px solid #a1b5f052;background-image:linear-gradient(to left,#a1b5f04f 1px,transparent 1px);background-size:10% 100%;box-shadow:0 0 1px #bbc8f080}
+.letter-song-title,.letter-signoff{position:absolute;z-index:2;width:9.09%;margin:0;color:#000;font-family:'LetterCN',Georgia,'KaiTi',serif;opacity:var(--decoration-opacity,1)}
+.letter-song-title{right:4.55%;top:5.8%;max-height:88%;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;overflow:hidden;white-space:nowrap;line-height:1;font-weight:400;font-size:clamp(10px,min(5.4cqw,calc(78cqh / var(--title-units,8))),26px)}
+.letter-sideways-name{text-orientation:sideways;font-family:Georgia,'Times New Roman',serif}
+.letter-signoff{left:4.55%;bottom:5.8%;height:81%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:1.9cqw}
+.letter-signoff[hidden]{display:none}
+.letter-byline{writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap;max-height:82%;overflow:hidden;font-size:clamp(10px,3.85cqw,18px);line-height:1;clip-path:inset(0 0 var(--signature-cover,100%) 0)}
+.letter-seal{position:relative;flex:none;width:7.5cqw;height:7.5cqw;display:grid;place-items:center;padding:.65cqw;font:600 2.55cqw/1.08 'LetterCN',Georgia,serif;text-align:center;overflow-wrap:anywhere;background:#df8273;border:1px solid #9d342e;border-radius:1px 2px 1px 2px;box-shadow:inset 0 0 0 .33cqw #b24d41,inset 0 0 0 .49cqw #ffbb9fb5;opacity:var(--stamp-opacity,0);transform:translateY(var(--stamp-offset,0px)) rotate(-3deg) scale(var(--stamp-scale,1))}
+.letter-seal[data-layout='vertical']{display:flex;flex-direction:row-reverse;justify-content:center;align-items:center;gap:.12cqw;font-size:2.45cqw}
+.letter-seal[data-layout='vertical'] span{writing-mode:vertical-rl;white-space:nowrap;flex:none}
+.letter-keyboard{position:absolute;left:76%;bottom:var(--stage-bottom);transform:translateX(-50%);width:40%;z-index:5;--key:clamp(24px,2.25vw,36px);--key-gap:clamp(7px,.81vw,13px)}
+.letter-keyboard .keyboard{display:flex;flex-direction:column;gap:clamp(9px,.85vw,14px);width:100%}
+.letter-keyboard .key-row{display:flex;justify-content:center;gap:var(--key-gap)}
+.letter-keyboard .key{width:var(--key);height:var(--key);flex:0 0 var(--key);padding:0;border:1.15px solid #7e8b7c;border-radius:50%;color:#35382b;background:#fffef5;font:700 calc(var(--key)*.60)/1 'Courier New',Courier,monospace;text-align:center;cursor:pointer;appearance:none;box-shadow:0 .7px 0 #777c6530;-webkit-tap-highlight-color:transparent;touch-action:manipulation;display:grid;place-items:center;transition:color 1.5s ease}
+/* 敲击反馈：圆框不变色，字母瞬间变为信纸蓝，随后 1.5s 渐变回黑 */
+.letter-keyboard .key.used{color:#2854d7;transition:none}
+.letter-keyboard .key.pressed{transform:translateY(2px) scale(.94);box-shadow:inset 0 1px 3px #00000038;color:#fff9e5}
+.letter-keyboard .key:hover{border-color:#626f52}
+.typing-readout{display:flex;gap:11px;align-items:baseline;justify-content:center;position:absolute;left:0;right:0;bottom:calc(100% + 20px);color:#5e6d4e;min-height:20px}
+.typing-character{font-size:19px}.typing-pinyin{font:10px 'Courier New',monospace;letter-spacing:.16em;color:#8a8f78}
+.typing-pinyin:empty{display:none}
+.typing-character[lang='ru']{font-family:'LetterCN',Georgia,'Times New Roman',serif}.typing-character[lang='ja']{font-family:'Yu Gothic','Hiragino Sans','Noto Sans JP','LetterCN',serif}
+.letter-ime-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;padding:0;cursor:text;font:inherit}
+.typing-readout:focus-within{outline:1px dotted #7e8b7c;outline-offset:4px}
+.letter-controls{position:absolute;z-index:7;bottom:var(--stage-bottom);left:5%;right:53%;display:grid;grid-template-columns:auto minmax(140px,1fr) auto;align-items:center;gap:18px;color:#12384b}
+.letter-playback{display:flex;gap:18px;align-items:center}.letter-playback button{padding:8px}.letter-playback .letter-toggle{border:1px solid #174e6570;border-radius:50%;width:39px;height:39px;display:grid;place-items:center}.letter-toggle[aria-label='播放'] svg{margin-left:3px}.letter-playback button:hover{color:#963c35}
+.letter-progress{display:flex;align-items:center;gap:13px;font:10px Georgia,serif;font-variant-numeric:tabular-nums;letter-spacing:.04em}.letter-current-time,.letter-total-time{width:29px;flex:0 0 29px}.letter-total-time{text-align:right}
+.letter-progress-rail{position:relative;flex:1;min-width:0;height:44px}
+.letter-seek{--seek-thumb:32px;position:relative;z-index:2;display:block;appearance:none;width:100%;height:44px;background:transparent;cursor:ew-resize;outline:none}
+.letter-seek::-webkit-slider-runnable-track{height:1px;background:transparent}
+.letter-seek::-webkit-slider-thumb{appearance:none;width:var(--seek-thumb);height:36px;border:0;background:transparent;margin-top:-17.5px}
+.letter-seek::-moz-range-track{height:1px;background:transparent}.letter-seek::-moz-range-progress{background:transparent}.letter-seek::-moz-range-thumb{width:var(--seek-thumb);height:36px;border:0;background:transparent}
+.letter-seek:focus-visible{outline:1px solid #145269;outline-offset:3px}
+.letter-progress-curve{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.letter-progress-curve path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.letter-progress-track{stroke:#315e69;stroke-opacity:.47;stroke-width:1}
+.letter-progress-elapsed{stroke:#235b66;stroke-width:1.35}
+.letter-mode:hover{color:#963c35}.letter-status{position:absolute;bottom:calc(100% + 10px);right:0;font-size:11px;letter-spacing:.12em;color:#984c3d}
+.letter-transcript{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.letter-stage[data-skin='night']{color:#edf0ff;color-scheme:dark}
+.letter-stage[data-skin='night'] .letter-header{color:#edf0ffcc}
+.letter-stage[data-skin='night'] button:focus-visible{outline-color:#f7cce6}
+.letter-stage[data-skin='night'] .letter-paper{--sheet-blue:#0d205b26;--sheet-blue-1:#142a6c;--sheet-blue-2:#122765;--sheet-blue-3:#11255e;--sheet-shadow:#020b3b55}
+.letter-stage[data-skin='night'] .letter-paper[data-stacked]{--sheet-blue:#162f78}
+.letter-stage[data-skin='night'] .letter-sheet::before{opacity:.025}
+.letter-stage[data-skin='night'] .letter-sheet::after{background:linear-gradient(112deg,#b7cdff0c,transparent 44%,#020b3b0d)}
+.letter-stage[data-skin='night'] .letter-page-nav{color:#e7eeff}
+.letter-stage[data-skin='night'] .letter-rules{border-color:#d8e5ff38;background-image:linear-gradient(to left,#d8e5ff32 1px,transparent 1px);box-shadow:0 0 1px #e7eeff36}
+.letter-stage[data-skin='night'] .letter-keyboard .key{color:#edf0ffcc;background:#0d205b40;border-color:#d8e5ff38;box-shadow:inset 0 .7px #b7cdff16,0 .7px #020b3b55}
+.letter-stage[data-skin='night'] .letter-keyboard .key.used{color:#9db7ff;transition:none}
+.letter-stage[data-skin='night'] .letter-keyboard .key.pressed{color:#fff3ff;box-shadow:inset 0 1px 3px #020b3b99}
+.letter-stage[data-skin='night'] .letter-keyboard .key:hover{border-color:#f7cce680}
+.letter-stage[data-skin='night'] .typing-readout{color:#fff3ff}
+.letter-stage[data-skin='night'] .typing-pinyin{color:#b7cdff}
+.letter-stage[data-skin='night'] .letter-controls{color:#edf0ffcc}
+.letter-stage[data-skin='night'] .letter-playback .letter-toggle{border-color:#d8e5ff38}
+.letter-stage[data-skin='night'] .letter-playback button:hover,.letter-stage[data-skin='night'] .letter-mode:hover{color:#f7cce6}
+.letter-stage[data-skin='night'] .letter-seek:focus-visible{outline-color:#f7cce6}
+.letter-stage[data-skin='night'] .letter-progress-track{stroke:#c8d7f3;stroke-opacity:.4}
+.letter-stage[data-skin='night'] .letter-progress-elapsed{stroke:#dce9ff}
+.letter-stage[data-skin='night'] .letter-status{color:#f7cce6}
+@media(max-height:720px) and (min-width:1000px){.letter-stage{--stage-bottom:28px}.letter-paper{height:59%;width:min(36vw,42.1vh)}.letter-keyboard{--key:25px;--key-gap:9px}.letter-keyboard .keyboard{gap:9px}.typing-readout{bottom:calc(100% + 12px)}.letter-header{top:20px}}
+@media(max-width:759px),(max-width:999px) and (orientation:portrait){
+ .letter-header{left:6%;right:6%;top:max(20px,env(safe-area-inset-top))}.letter-back{gap:6px}
+ .letter-earbuds{display:none}
+ .letter-seasons{width:100%;height:calc(24% + 28px);top:5.5%;mask-image:linear-gradient(to bottom,#000 0 93%,transparent 100%)}
+ .letter-flight{width:100%;height:calc(29% + 28px)}
+ .letter-paper{left:50%;top:calc(29% + 28px);height:calc(41% - 28px);width:min(68vw,41vh * .715)}
+ .letter-paper[data-stacked] .letter-page-nav{left:0;transform:none}
+ .letter-keyboard{left:50%;bottom:17%;width:94%;--key:clamp(17px,4.5vw,29px);--key-gap:clamp(4px,1.25vw,9px)}.letter-keyboard .keyboard{gap:7px}.typing-readout{top:auto;bottom:calc(100% + 12px)}.typing-character{font-size:15px}.typing-pinyin{font-size:9px}
+ .letter-controls{left:6%;right:6%;bottom:max(18px,env(safe-area-inset-bottom));grid-template-columns:auto minmax(0,1fr) auto;gap:12px}.letter-progress{gap:8px;font-size:9px}.letter-current-time,.letter-total-time{width:26px;flex-basis:26px}.letter-seek{--seek-thumb:28px}.letter-playback{gap:3px}.letter-playback button{padding:5px}.letter-playback .letter-toggle{width:33px;height:33px}.letter-playback svg{width:14px!important;height:14px!important}.letter-mode svg{width:16px!important}.letter-status{font-size:9px;bottom:calc(100% + 12px)}
+}
+@media(prefers-reduced-motion:reduce){.letter-stage *{scroll-behavior:auto!important}.letter-flight{visibility:hidden}}

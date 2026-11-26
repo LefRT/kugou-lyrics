@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9e2d5">
+  <title>特别的人 · 手绘唱片</title>
+  <script src="../journal-embed.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../journal-page.css">
+  <script src="../clip-playback.js" defer></script>
+  <script src="./player.js" defer></script>
+</head>
+<body>
+  <svg class="drawings" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <filter id="hand-drawn" x="-12%" y="-12%" width="124%" height="124%">
+        <feTurbulence type="fractalNoise" baseFrequency=".105" numOctaves="3" seed="19" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <pattern id="pencil" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+        <path d="M1 0v7m2-7v7m3-7v7" stroke="currentColor" stroke-width=".45" opacity=".55"/>
+      </pattern>
+      <symbol id="note-single" viewBox="0 0 56 68">
+        <path d="M23 43c2-13 3-23 5-36 7 5 15 8 24 5-6 6-12 7-20 4l-5 35c-1 9-13 16-19 11-7-6 4-19 15-19Z" fill="currentColor"/>
+        <path d="M24 45c2-12 2-23 5-35" fill="none" stroke="currentColor" stroke-width="2"/>
+      </symbol>
+      <symbol id="note-double" viewBox="0 0 70 68">
+        <path d="m21 52 5-35 35-9-4 35m-32-17 35-9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 47c-4-4-21 3-21 11-1 11 20 7 22-3 1-4 1-6-1-8ZM56 37c-5-3-20 4-20 12 0 10 20 7 22-3 1-4 0-7-2-9Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="spark" viewBox="0 0 50 64">
+        <path d="m26 4-1 17m-3 21-4 17M5 31l12-1m16 0 12-3" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="ink-dot" viewBox="0 0 14 14">
+        <path d="M10 7c0 3-2 4-5 3S2 5 5 4s5 0 5 3Z" fill="currentColor"/>
+      </symbol>
+      <symbol id="lamp-icon" viewBox="0 0 74 87">
+        <path d="M20 63c0-9-9-15-9-29C9 17 21 7 36 6c16-1 26 12 25 25-1 12-8 19-12 30l-29 2Zm5 13 25-2M32 60c1-10 13-14 5-24-4-5-2-11 2-16" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="heart-icon" viewBox="0 0 95 86">
+        <path d="M48 21C40 10 24 7 14 15 2 23 5 38 13 49c9 13 27 26 41 32 14-10 27-26 33-45 5-15-2-26-14-27-11-1-19 4-25 12Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+        <path d="M17 23c-8 7-3 16 3 23m53-27c9 3 8 13 3 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" opacity=".47"/>
+      </symbol>
+      <symbol id="comment-icon" viewBox="0 0 88 84">
+        <path d="M78 38c-1-17-18-28-35-27C25 11 10 24 9 41c-1 8 2 16 7 22l-6 14 19-8c17 6 45-4 48-24l1-7ZM29 34l28-2M27 49l29-2" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="share-icon" viewBox="0 0 84 84">
+        <path d="M42 54c0-15 .5-29 1-42M26 27c5-6 11-12 17-16 6 5 11 10 16 16M16 44c-1 10 0 21 2 27 14 2 34 2 48 0 2-6 3-17 2-27" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="repeat-icon" viewBox="0 0 69 72">
+        <path d="M54 18C40 11 24 16 16 28c-8 11-8 25 1 33 9 8 24 7 34-1" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        <path d="m49 7 14 14-18 8 4-22Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="previous-icon" viewBox="0 0 72 76">
+        <path d="M12 13c-1 17-1 37 0 51" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M59 13c-10 3-31 13-43 23 8 9 26 23 42 28l1-51Z" fill="currentColor" fill-opacity=".78" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M59 13c-10 3-31 13-43 23 8 9 26 23 42 28l1-51Z" fill="url(#pencil)"/>
+      </symbol>
+      <symbol id="play-icon" viewBox="0 0 84 86">
+        <path d="M17 8c16 3 48 24 60 38-14 10-43 26-62 31-1-22 1-47 2-69Z" fill="currentColor" fill-opacity=".8" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M17 8c16 3 48 24 60 38-14 10-43 26-62 31-1-22 1-47 2-69Z" fill="url(#pencil)"/>
+      </symbol>
+      <symbol id="pause-icon" viewBox="0 0 84 86">
+        <path d="m22 12 12 2-2 60-13 1 3-63Zm28 1 12-1-1 62-13 2 2-63Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="next-icon" viewBox="0 0 80 76">
+        <path d="M64 12c-1 16 0 40 1 54" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M11 12c17 6 36 16 50 27-12 9-35 21-50 26-1-18-1-37 0-53Z" fill="currentColor" fill-opacity=".88" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M11 12c17 6 36 16 50 27-12 9-35 21-50 26-1-18-1-37 0-53Z" fill="url(#pencil)"/>
+      </symbol>
+      <symbol id="queue-icon" viewBox="0 0 76 76">
+        <path d="m13 9 12 9-13 4 1-13Z" fill="currentColor" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 18c10-1 21-1 31 0M11 40c17-1 33 0 48 0M11 64c18-2 35-1 52-1" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <main class="desk">
+    <article class="player" aria-label="手绘唱片播放器">
+      <div class="paper" aria-hidden="true"></div>
+      <button class="journal-back drawn-button" type="button" aria-label="返回收藏歌词" hidden>
+        <svg viewBox="0 0 56 48" aria-hidden="true">
+          <path d="M45 24c-8 1.5-16 .7-24 1.4-3 .2-6.8.6-10 .4m15-14c-5.2 4.2-11.4 9-15 14 4.5 5 10.3 8.2 16.8 11.5" fill="none" stroke="currentColor" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="doodles" aria-hidden="true">
+        <svg class="doodle note-top" viewBox="0 0 70 68"><use href="#note-double"/></svg>
+        <svg class="doodle note-corner" viewBox="0 0 56 68"><use href="#note-single"/></svg>
+        <svg class="doodle note-right" viewBox="0 0 70 68"><use href="#note-double"/></svg>
+        <svg class="doodle note-low-right" viewBox="0 0 56 68"><use href="#note-single"/></svg>
+        <svg class="doodle note-left" viewBox="0 0 56 68"><use href="#note-single"/></svg>
+        <svg class="doodle note-low-left" viewBox="0 0 56 68"><use href="#note-single"/></svg>
+        <svg class="doodle spark-top" viewBox="0 0 50 64"><use href="#spark"/></svg>
+        <svg class="doodle spark-left" viewBox="0 0 50 64"><use href="#spark"/></svg>
+        <svg class="doodle spark-right" viewBox="0 0 50 64"><use href="#spark"/></svg>
+        <svg class="doodle spark-low" viewBox="0 0 50 64"><use href="#spark"/></svg>
+        <svg class="doodle dot-top" viewBox="0 0 14 14"><use href="#ink-dot"/></svg>
+        <svg class="doodle dot-right" viewBox="0 0 14 14"><use href="#ink-dot"/></svg>
+        <svg class="doodle dot-low" viewBox="0 0 14 14"><use href="#ink-dot"/></svg>
+      </div>
+
+      <button class="record-button" type="button" aria-label="播放唱片">
+        <span class="record">
+          <span class="record-grooves"></span>
+          <img class="cover" src="./assets/cover.png" alt="" width="240" height="240">
+          <span class="record-shine"></span>
+        </span>
+      </button>
+
+      <header class="track">
+        <h1 id="track-title">特别的人</h1>
+        <p id="track-artist">方大同</p>
+      </header>
+
+      <div class="actions" role="group" aria-label="唱片操作">
+        <button class="drawn-button lamp" type="button" aria-label="唱片灯光" aria-pressed="true">
+          <svg viewBox="0 0 74 87" aria-hidden="true"><use href="#lamp-icon"/></svg>
+        </button>
+        <button class="drawn-button favorite" type="button" aria-label="喜欢" aria-pressed="true">
+          <svg viewBox="0 0 95 86" aria-hidden="true"><use href="#heart-icon"/></svg>
+          <span class="count" aria-hidden="true">999w+</span>
+        </button>
+        <button class="drawn-button comments" type="button" aria-label="留言" aria-controls="comments-panel" aria-expanded="false">
+          <svg viewBox="0 0 88 84" aria-hidden="true"><use href="#comment-icon"/></svg>
+          <span class="count" aria-hidden="true">6w+</span>
+        </button>
+        <button class="drawn-button share" type="button" aria-label="分享歌词页">
+          <svg viewBox="0 0 84 84" aria-hidden="true"><use href="#share-icon"/></svg>
+        </button>
+      </div>
+
+      <div class="timeline">
+        <div class="seek">
+          <svg viewBox="0 0 520 16" preserveAspectRatio="none" aria-hidden="true">
+            <path class="seek-line" d="M4 7Q108 10 201 8T347 9Q412 11 517 9"/>
+            <path class="seek-progress" pathLength="100" d="M4 7Q108 10 201 8T347 9Q412 11 517 9"/>
+          </svg>
+          <input id="seek" type="range" min="0" max="259" step="1" value="66" aria-label="播放进度" aria-valuetext="1 分 06 秒">
+        </div>
+        <div class="times"><span id="elapsed">01:06</span><span id="duration">04:19</span></div>
+      </div>
+
+      <div class="transport" role="group" aria-label="播放控制">
+        <button class="drawn-button previous" type="button" aria-label="上一首">
+          <svg viewBox="0 0 72 76" aria-hidden="true"><use href="#previous-icon"/></svg>
+        </button>
+        <button class="drawn-button play" type="button" aria-label="播放">
+          <svg class="play-art" viewBox="0 0 84 86" aria-hidden="true"><use href="#play-icon"/></svg>
+          <svg class="pause-art" viewBox="0 0 84 86" aria-hidden="true"><use href="#pause-icon"/></svg>
+        </button>
+        <button class="drawn-button next" type="button" aria-label="下一首">
+          <svg viewBox="0 0 80 76" aria-hidden="true"><use href="#next-icon"/></svg>
+        </button>
+      </div>
+
+      <section class="paper-slip" id="comments-panel" aria-labelledby="comments-title" hidden>
+        <header><h2 id="comments-title">留言</h2><button class="close-slip" type="button" aria-label="关闭留言">×</button></header>
+        <ul id="messages"></ul>
+        <form id="comment-form">
+          <input id="comment-text" type="text" aria-label="留言内容" placeholder="写下你的留言" maxlength="100" required>
+          <button type="submit">留下</button>
+        </form>
+      </section>
+
+      <section class="paper-slip" id="queue-panel" aria-labelledby="queue-title" hidden>
+        <header><h2 id="queue-title">播放列表</h2><button class="close-slip" type="button" aria-label="关闭播放列表">×</button></header>
+        <ul id="tracks"></ul>
+        <label class="add-audio">添加本地音频<input id="audio-files" type="file" accept="audio/*" multiple></label>
+      </section>
+
+      <audio id="audio" data-src="./assets/demo.mp3" preload="metadata"></audio>
+      <p id="status" class="status" role="status"></p>
+    </article>
+  </main>
+</body>
+</html>

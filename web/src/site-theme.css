@@ -1,0 +1,36 @@
+/* Qoder Sites 设计变量：默认值等于现有外观，未被 Nudge 修改时渲染不变。 */
+:root {
+  --site-bg: var(--bg);
+  --site-fg: var(--text);
+  --site-accent: var(--accent);
+  --site-on-accent: #fff;
+  --site-surface: var(--bg-elev);
+  --site-muted: var(--text-2);
+  --site-border: var(--border);
+  --site-font: var(--font);
+  --site-radius: 0px;
+  --site-space: 1;
+  --site-type: 1;
+  --site-motion: 1;
+}
+
+body {
+  background: var(--site-bg);
+  color: var(--site-fg);
+  font-family: var(--site-font);
+}
+
+.toolbar { gap: calc(12px * var(--site-space)); }
+.toolbar input,
+.toolbar select,
+.toolbar button,
+.mm-go,
+.mm-cancel,
+.page .btn { border-radius: var(--site-radius); }
+.toolbar input:focus { border-color: var(--site-accent); box-shadow: 3px 3px 0 0 var(--site-accent); }
+.toolbar button:hover { box-shadow: 4px 4px 0 0 var(--site-accent); }
+.badge-count { background: var(--site-accent); border-color: var(--site-accent); color: var(--site-on-accent); }
+.mark, mark { background: var(--mark-bg); }
+
+.hero h1 { font-size: calc(clamp(52px, 9vw, 104px) * var(--site-type)); }
+.toolbar input { transition: border-color calc(200ms * var(--site-motion)) var(--ease); }

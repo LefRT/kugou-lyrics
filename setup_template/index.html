@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>首次启动 · 酷狗登录与同步</title>
+  <style>
+    :root {
+      --paper: #f6f2ea;
+      --card: #fbf8f2;
+      --ink: #1e1b18;
+      --muted: #6c645c;
+      --line: rgba(30, 27, 24, 0.14);
+      --accent: #c4372b;
+      --ok: #2c6e49;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 18% 15%, rgba(196, 55, 43, 0.06), transparent 42%),
+        radial-gradient(circle at 82% 85%, rgba(65, 92, 118, 0.07), transparent 45%),
+        var(--paper);
+      color: var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    .card {
+      width: min(520px, 100%);
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 32px 30px 28px;
+      box-shadow: 0 18px 46px rgba(30, 27, 24, 0.08);
+    }
+    .kicker {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .sub {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .steps {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--line);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .step.active { color: var(--ink); font-weight: 600; }
+    .step.done { color: var(--ok); }
+    .qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0 8px;
+    }
+    .qr-box {
+      width: 224px;
+      height: 224px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+    }
+    .qr-box svg { width: 100%; height: 100%; display: block; }
+    .status-line {
+      font-size: 14px;
+      color: var(--ink);
+      min-height: 22px;
+      text-align: center;
+    }
+    .status-line.err { color: var(--accent); }
+    .status-line.ok { color: var(--ok); }
+    .hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .scope {
+      display: flex;
+      gap: 18px;
+      margin: 10px 0 18px;
+      font-size: 14px;
+    }
+    .scope label { cursor: pointer; display: flex; align-items: center; gap: 6px; }
+    button, a.btn {
+      appearance: none;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      padding: 9px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    button.ghost, a.btn.ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--line);
+    }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(30, 27, 24, 0.08);
+      overflow: hidden;
+      margin: 14px 0 10px;
+    }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+      gap: 8px;
+    }
+    .current {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="kicker">KUGOU LYRICS · FIRST RUN</div>
+    <h1>欢迎使用酷狗歌词库</h1>
+    <p class="sub">登录你自己的酷狗账号并拉取收藏歌曲歌词。所有数据仅保存在本机 <code>data/</code> 目录中，不会上传到任何服务器。</p>
+
+    <div class="steps">
+      <span id="st-login" class="step active">① 扫码登录酷狗</span>
+      <span>→</span>
+      <span id="st-sync" class="step">② 拉取歌单歌词</span>
+    </div>
+
+    <section id="pane-login">
+      <div class="qr-wrap">
+        <div id="qr-box" class="qr-box">正在生成二维码…</div>
+        <div id="qr-status" class="status-line">正在连接酷狗登录服务…</div>
+        <div class="hint">打开手机 <strong>酷狗音乐 App → 我的 → 扫一扫</strong> 扫描上方二维码</div>
+        <div class="row">
+          <button id="btn-refresh" type="button" class="ghost">刷新二维码</button>
+          <a id="btn-enter-early" class="btn ghost" href="/" hidden>直接进入主站</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="pane-sync" hidden>
+      <div id="user-banner" class="status-line ok" style="text-align:left;margin-bottom:10px;"></div>
+      <div class="scope">
+        <label><input type="radio" name="scope" value="liked" checked /> 仅同步「我喜欢」（推荐）</label>
+        <label><input type="radio" name="scope" value="all" /> 同步全部自建歌单</label>
+      </div>
+      <div class="row" style="justify-content:flex-start;margin-top:0;">
+        <button id="btn-sync" type="button">开始同步歌词</button>
+        <button id="btn-relogin" type="button" class="ghost">切换账号</button>
+        <a id="btn-enter" class="btn ghost" href="/" hidden>进入音乐网站</a>
+      </div>
+      <div id="progress-area" hidden>
+        <div class="bar-track"><div id="bar-fill" class="bar-fill"></div></div>
+        <div class="meta">
+          <span id="sync-count">准备中…</span>
+          <span id="sync-detail"></span>
+        </div>
+        <div id="sync-current" class="current"></div>
+      </div>
+      <div id="sync-msg" class="status-line" style="text-align:left;margin-top:12px;"></div>
+    </section>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let qrKey = '';
+    let qrTimer = null;
+    let syncTimer = null;
+
+    function setStep(step) {
+      $('pane-login').hidden = step !== 'login';
+      $('pane-sync').hidden = step !== 'sync';
+      $('st-login').className = 'step ' + (step === 'login' ? 'active' : 'done');
+      $('st-sync').className = 'step ' + (step === 'sync' ? 'active' : '');
+    }
+
+    async function loadQr() {
+      clearInterval(qrTimer);
+      $('qr-box').textContent = '正在生成二维码…';
+      $('qr-status').className = 'status-line';
+      $('qr-status').textContent = '正在请求酷狗二维码…';
+      try {
+        const res = await fetch('/api/setup/qr', { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok || !data.svg) throw new Error(data.error || '二维码生成失败');
+        qrKey = data.key;
+        $('qr-box').innerHTML = data.svg;
+        $('qr-status').textContent = '等待扫码（180 秒内有效）';
+        qrTimer = setInterval(pollQr, 2000);
+      } catch (e) {
+        $('qr-status').className = 'status-line err';
+        $('qr-status').textContent = e.message || '二维码获取失败，请点刷新重试';
+      }
+    }
+
+    async function pollQr() {
+      if (!qrKey) return;
+      try {
+        const res = await fetch('/api/setup/qr/status?key=' + encodeURIComponent(qrKey));
+        const data = await res.json();
+        if (data.status === 4) {
+          clearInterval(qrTimer);
+          $('qr-status').className = 'status-line ok';
+          $('qr-status').textContent = '登录成功，正在进入数据同步…';
+          enterSyncStep(data.userid || '', 0, true);
+          return;
+        }
+        if (data.status === 0) {
+          clearInterval(qrTimer);
+          $('qr-status').className = 'status-line err';
+          $('qr-status').textContent = '二维码已过期，请点击刷新二维码';
+          return;
+        }
+        $('qr-status').className = 'status-line';
+        $('qr-status').textContent = data.label || '等待扫码…';
+      } catch (e) {
+        $('qr-status').className = 'status-line err';
+        $('qr-status').textContent = '轮询登录状态失败，正在重试…';
+      }
+    }
+
+    function enterSyncStep(userid, count, autoStart) {
+      setStep('sync');
+      $('user-banner').textContent = `已登录酷狗账号（ID: ${userid || '已就绪'}）` +
+        (count > 0 ? ` · 当前库内已有 ${count} 首歌曲` : ' · 首次使用，准备拉取你的收藏歌词');
+      $('btn-enter').hidden = count === 0;
+      if (autoStart) startSync();
+    }
+
+    async function startSync() {
+      const scope = document.querySelector('input[name="scope"]:checked')?.value || 'liked';
+      $('btn-sync').disabled = true;
+      $('progress-area').hidden = false;
+      $('sync-msg').className = 'status-line';
+      $('sync-msg').textContent = '';
+      try {
+        const res = await fetch('/api/setup/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ scope }),
+        });
+        const data = await res.json();
+        renderSync(data);
+        clearInterval(syncTimer);
+        syncTimer = setInterval(pollSync, 1000);
+      } catch (e) {
+        $('btn-sync').disabled = false;
+        $('sync-msg').className = 'status-line err';
+        $('sync-msg').textContent = '启动同步失败：' + (e.message || e);
+      }
+    }
+
+    async function pollSync() {
+      try {
+        const res = await fetch('/api/setup/sync/status');
+        const data = await res.json();
+        renderSync(data);
+      } catch {}
+    }
+
+    function renderSync(s) {
+      $('progress-area').hidden = false;
+      const pct = s.total > 0 ? Math.min(100, Math.round((s.done / s.total) * 100)) : (s.running ? 8 : 0);
+      $('bar-fill').style.width = pct + '%';
+      $('sync-count').textContent = s.total > 0 ? `${s.done} / ${s.total} 首（${pct}%）` : (s.playlist || '准备中…');
+      $('sync-detail').textContent = `逐字 ${s.krc || 0} · 普通 ${s.lrc || 0} · 跳过 ${s.skipped || 0}`;
+      $('sync-current').textContent = s.current || '';
+      if (s.error) {
+        clearInterval(syncTimer);
+        $('btn-sync').disabled = false;
+        $('sync-msg').className = 'status-line err';
+        $('sync-msg').textContent = s.error;
+        return;
+      }
+      if (!s.running && s.finished) {
+        clearInterval(syncTimer);
+        $('btn-sync').disabled = false;
+        $('st-sync').className = 'step done';
+        $('btn-enter').hidden = false;
+        $('sync-msg').className = 'status-line ok';
+        $('sync-msg').textContent = '同步完成！即将进入音乐网站…';
+        setTimeout(() => { location.href = '/'; }, 1400);
+      }
+    }
+
+    $('btn-refresh').onclick = loadQr;
+    $('btn-sync').onclick = startSync;
+    $('btn-relogin').onclick = () => { setStep('login'); loadQr(); };
+
+    (async function init() {
+      const res = await fetch('/api/setup/status');
+      const st = await res.json();
+      if (st.song_count > 0) $('btn-enter-early').hidden = false;
+      if (st.sync && st.sync.running) {
+        enterSyncStep(st.userid, st.song_count, false);
+        $('btn-sync').disabled = true;
+        renderSync(st.sync);
+        syncTimer = setInterval(pollSync, 1000);
+      } else if (st.logged_in) {
+        enterSyncStep(st.userid, st.song_count, false);
+      } else {
+        setStep('login');
+        loadQr();
+      }
+    })();
+  </script>
+</body>
+</html>

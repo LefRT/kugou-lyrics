@@ -1,0 +1,122 @@
+:root {
+  color-scheme: dark;
+  background: #18251e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.exhibit {
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: center;
+  padding: clamp(12px, 4vmin, 52px);
+  background: radial-gradient(ellipse at 50% 42%, #344135 0%, #202d24 55%, #131d17 100%);
+}
+
+.song-ring, .song-search { display: none; }
+.pond-mount { display: contents; }
+
+.painting {
+  position: relative;
+  display: block;
+  width: min(100%, 1100px, 138vh);
+  aspect-ratio: 1000 / 665;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: #214031;
+  box-shadow: 0 15px 65px #060e0aae, 0 0 0 1px #d5d4ac32;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.painting:focus-visible {
+  outline: 2px solid #f2e2bb;
+  outline-offset: 5px;
+}
+
+.scene {
+  /* Map the four photographed corners of the painting onto the scene. */
+  --photo-transform: matrix3d(0.9186853259357031, -0.004151282990873392, 0, -0.0001034025868434987, -0.032063372528863654, 0.9838540688369715, 0, 0.000012825623640493156, 0, 0, 1, 0, -309.1634022813547, -378.3147215242653, 0, 1);
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1000px;
+  height: 665px;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.pond-background,
+.original-water {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.original-water {
+  mask-image: linear-gradient(transparent, transparent);
+  mask-size: 100% 100%;
+}
+
+.artwork {
+  position: absolute;
+  top: var(--artwork-top, 0);
+  left: var(--artwork-left, 0);
+  width: 1920px;
+  height: 1440px;
+  max-width: none;
+  transform: var(--photo-transform);
+  transform-origin: 0 0;
+  user-select: none;
+}
+
+.water-patch {
+  /* Feather in nearby painted water to open up the center of the pond. */
+  position: absolute;
+  overflow: hidden;
+  mask-image: radial-gradient(ellipse closest-side, #000 77%, transparent 100%);
+}
+
+.water-patch--lower {
+  --artwork-left: -709px;
+  --artwork-top: -299px;
+  left: 581px;
+  top: 312px;
+  width: 110px;
+  height: 89px;
+}
+
+.water-patch--center {
+  --artwork-left: -452px;
+  --artwork-top: -245px;
+  left: 582px;
+  top: 245px;
+  width: 135px;
+  height: 114px;
+  mask-image: radial-gradient(ellipse closest-side, #000 80%, transparent 100%);
+}
+
+.water-patch--upper {
+  --artwork-left: -710px;
+  --artwork-top: -201px;
+  left: 657px;
+  top: 207px;
+  width: 60px;
+  height: 93px;
+}
+
+.water,
+.flowers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

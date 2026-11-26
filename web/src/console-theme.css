@@ -1,0 +1,36 @@
+/* Color tokens interpolate on the root, rather than each element starting a separate fade. */
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #fff; }
+@property --bg-elev { syntax: '<color>'; inherits: true; initial-value: #fff; }
+@property --bg-section { syntax: '<color>'; inherits: true; initial-value: #f4f4f4; }
+@property --text { syntax: '<color>'; inherits: true; initial-value: #141312; }
+@property --text-2 { syntax: '<color>'; inherits: true; initial-value: #55524c; }
+@property --text-3 { syntax: '<color>'; inherits: true; initial-value: #8f8b83; }
+@property --border { syntax: '<color>'; inherits: true; initial-value: #141312; }
+@property --border-soft { syntax: '<color>'; inherits: true; initial-value: #dedede; }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #e8250c; }
+@property --accent-hover { syntax: '<color>'; inherits: true; initial-value: #c81f09; }
+@property --accent-soft { syntax: '<color>'; inherits: true; initial-value: rgba(232,37,12,.08); }
+@property --mark-bg { syntax: '<color>'; inherits: true; initial-value: #ffd9d2; }
+@property --nav-bg { syntax: '<color>'; inherits: true; initial-value: rgba(255,255,255,.92); }
+@property --nav-border { syntax: '<color>'; inherits: true; initial-value: #141312; }
+@property --sheen { syntax: '<color>'; inherits: true; initial-value: rgba(20,19,18,.05); }
+@property --input-bg { syntax: '<color>'; inherits: true; initial-value: #fff; }
+@property --row-hover { syntax: '<color>'; inherits: true; initial-value: #f6f6f6; }
+@property --dot { syntax: '<color>'; inherits: true; initial-value: #141312; }
+@property --card-outline { syntax: '<color>'; inherits: true; initial-value: #141312; }
+
+html.console-theme-changing {
+  transition: --bg .4s ease, --bg-elev .4s ease, --bg-section .4s ease,
+    --text .4s ease, --text-2 .4s ease, --text-3 .4s ease,
+    --border .4s ease, --border-soft .4s ease, --accent .4s ease,
+    --accent-hover .4s ease, --accent-soft .4s ease, --mark-bg .4s ease,
+    --nav-bg .4s ease, --nav-border .4s ease, --sheen .4s ease,
+    --input-bg .4s ease, --row-hover .4s ease, --dot .4s ease,
+    --card-outline .4s ease;
+}
+/* Descendant transitions must not trail the already animated palette. */
+html.console-theme-changing body,
+html.console-theme-changing #app *,
+html.console-theme-changing #app *::before,
+html.console-theme-changing #app *::after { transition: none !important; }
+html.console-theme-changing #app .cov img { transition: filter .4s ease !important; }

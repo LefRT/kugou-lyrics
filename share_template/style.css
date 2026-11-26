@@ -1,0 +1,429 @@
+__EMBED_FONTS__
+
+:root {
+  --ink-warm: #a35a1a;
+  --ink-warm-deep: #854312;
+  --ink-dark: #382014;
+  --ink-line: #5b402a;
+  --paper: #f4eee4;
+  --font-cn: "Ma Shan Zheng", "Liu Jian Mao Cao", "STKaiti", "KaiTi", "FangSong", serif;
+  --font-en: "LetterEN", "Segoe Print", "Ink Free", cursive, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 3.2vw, 44px);
+  background:
+    radial-gradient(ellipse 80% 70% at 18% 12%, #faf7f3 0%, transparent 62%),
+    radial-gradient(ellipse 75% 75% at 88% 85%, #d6c8bc 0%, transparent 65%),
+    linear-gradient(125deg, #efeae4 0%, #e5ddd5 48%, #d8cbc0 100%);
+  color: var(--ink-warm);
+}
+
+.svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.desk {
+  width: min(94vw, 820px);
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 90% 80% at 24% 18%, #f8f3ea 0%, #f1e9dd 58%, #e9dfd0 100%);
+  box-shadow:
+    0 2px 6px rgba(62, 42, 28, 0.12),
+    0 18px 42px rgba(58, 38, 24, 0.18),
+    0 36px 80px rgba(52, 34, 22, 0.14),
+    inset 0 0 0 1px rgba(255, 252, 246, 0.65);
+  container-type: inline-size;
+}
+
+.art-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.paper-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(120, 95, 70, 0.03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(120, 95, 70, 0.025) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+}
+
+.sheet {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 47.5% 52.5%;
+  height: 100%;
+  padding: 8.6% 5.2% 6.4% 5.8%;
+  column-gap: 2.2%;
+  filter: url(#ink-bleed);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.col--left {
+  padding-top: 1.5%;
+}
+
+.col--right {
+  padding-top: 2.4%;
+}
+
+/* ---------- 顶部标题区 ---------- */
+.hero {
+  position: relative;
+  margin-bottom: 1.8cqw;
+}
+
+.hero-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2cqw;
+  line-height: 1.05;
+}
+
+.hero-row--top {
+  padding-left: 4.5%;
+  transform: rotate(-1.6deg);
+}
+
+.hero-row--bottom {
+  justify-content: flex-end;
+  padding-right: 4%;
+  margin-top: 1.2cqw;
+  transform: rotate(-1.2deg);
+}
+
+.hero-main {
+  font-family: var(--font-cn);
+  font-size: 6.4cqw;
+  letter-spacing: 0.03em;
+  color: var(--ink-warm);
+  text-shadow: 0.03em 0.04em 0 rgba(120, 62, 18, 0.18);
+}
+
+.hero-main--dark {
+  font-size: 5.9cqw;
+  color: var(--ink-dark);
+}
+
+.hero-pinyin {
+  font-family: var(--font-en);
+  font-size: 1.95cqw;
+  letter-spacing: 0.09em;
+  color: var(--ink-dark);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.hero-rule {
+  height: 1.1px;
+  background: linear-gradient(90deg, transparent, var(--ink-line) 12%, var(--ink-line) 88%, transparent);
+  opacity: 0.72;
+  margin: 0.7cqw 0;
+  transform: rotate(-1.4deg);
+}
+
+.hero-rule--short {
+  width: 68%;
+  margin-left: 16%;
+}
+
+.hero-rule--double {
+  border-top: 1px solid rgba(91, 64, 42, 0.68);
+  border-bottom: 1px solid rgba(91, 64, 42, 0.45);
+  height: 3.4px;
+  background: transparent;
+  margin: 0.9cqw 0 0;
+}
+
+/* ---------- 手绘播放控制条 ---------- */
+.player-bar {
+  margin: 2.1cqw 2% 4.8cqw 1%;
+  transform: rotate(-1.2deg);
+}
+
+.progress-rail {
+  position: relative;
+  height: 1.2px;
+  background: rgba(133, 67, 18, 0.62);
+  margin: 1.3cqw 0 2.1cqw;
+  cursor: pointer;
+}
+
+.progress-dot {
+  position: absolute;
+  top: 50%;
+  left: 46%;
+  width: 1.45cqw;
+  height: 1.45cqw;
+  border-radius: 50%;
+  background: var(--ink-warm-deep);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px rgba(244, 238, 228, 0.55);
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  color: var(--ink-warm-deep);
+}
+
+.ctrl {
+  display: grid;
+  place-items: center;
+  padding: 0.4cqw;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.ctrl svg {
+  width: 3.2cqw;
+  height: 2.4cqw;
+  overflow: visible;
+}
+
+.ctrl--play svg {
+  width: 3.6cqw;
+  height: 3.6cqw;
+}
+
+.ctrl:hover {
+  color: var(--ink-dark);
+  transform: scale(1.08);
+}
+
+.ctrl[aria-pressed="true"] {
+  color: #c42820;
+}
+
+.ctrl--play .icon-pause { display: none; }
+.ctrl--play[aria-pressed="true"] .icon-pause { display: inline; }
+.ctrl--play[aria-pressed="true"] .icon-play { display: none; }
+
+.progress-rail {
+  padding: 6px 0;
+  margin: 0.7cqw 0 1.5cqw;
+  background: linear-gradient(transparent 44%, rgba(133, 67, 18, 0.62) 44% 56%, transparent 56%);
+}
+
+.progress-fill {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0%;
+  height: 1.8px;
+  background: #c42820;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.stanza {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stanza-gap, 0.72cqw);
+}
+
+.stanza--left-mid {
+  margin-top: 0.4cqw;
+  padding-left: 0.5%;
+}
+
+.stanza--left-bottom {
+  position: relative;
+  margin-top: auto;
+  padding: 0 0 2.4cqw 0.5%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1.2cqw;
+}
+
+.stanza-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stanza-gap, 0.78cqw);
+}
+
+.stanza--right-top {
+  padding-left: 4%;
+  margin-bottom: var(--block-gap, 4.2cqw);
+}
+
+.stanza--right-mid {
+  padding-left: 2%;
+  margin-bottom: var(--block-gap, 4.8cqw);
+}
+
+.stanza--right-bottom {
+  padding-left: 3%;
+  margin-top: auto;
+  padding-bottom: 1.2cqw;
+}
+
+.line {
+  margin: 0;
+  font-family: var(--font-cn);
+  font-size: var(--line-size, 3.12cqw);
+  line-height: 1.32;
+  letter-spacing: 0.015em;
+  color: var(--ink-warm);
+  transform: rotate(var(--rot, -1deg));
+  padding-left: var(--indent, 0%);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.28s ease, text-shadow 0.28s ease, transform 0.28s ease;
+}
+
+.line:hover {
+  color: #8f3518;
+}
+
+.line.is-faved {
+  color: #c22820;
+  text-decoration: underline;
+  text-decoration-color: rgba(194, 40, 32, 0.34);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1.2px;
+}
+
+.line.is-faved .kw,
+.line.is-faved .py {
+  color: #a61e18;
+}
+
+.kw-float.is-faved .kw,
+.kw-float.is-faved .py {
+  color: #c22820;
+}
+
+.line.is-active {
+  color: #df241a;
+  text-shadow:
+    0 0 9px rgba(220, 42, 30, 0.42),
+    0 0 20px rgba(232, 74, 48, 0.24);
+  transform: rotate(var(--rot, -1deg)) scale(1.035);
+}
+
+.line.is-active .kw,
+.line.is-active .py {
+  color: #c41812;
+  text-shadow:
+    0 0 10px rgba(220, 42, 30, 0.44),
+    0 0 20px rgba(232, 74, 48, 0.24);
+}
+
+.kw-float.is-active .kw,
+.kw-float.is-active .py {
+  color: #df241a;
+  text-shadow: 0 0 11px rgba(220, 42, 30, 0.46);
+}
+
+.kw, .py {
+  transition: color 0.28s ease, text-shadow 0.28s ease;
+}
+
+.kw {
+  position: relative;
+  display: inline-block;
+  font-size: 1.48em;
+  line-height: 0.92;
+  color: var(--ink-dark);
+  margin: 0 0.08em;
+  transform: translateY(var(--dy, 0.04em)) rotate(var(--krot, -2deg));
+  text-shadow: 0.02em 0.03em 0 rgba(56, 32, 20, 0.14);
+}
+
+.py {
+  font-family: var(--font-en);
+  font-size: 1.72cqw;
+  letter-spacing: 0.07em;
+  color: var(--ink-dark);
+  text-transform: uppercase;
+  vertical-align: baseline;
+  margin: 0 0.28em 0 0.12em;
+  display: inline-block;
+  transform: translateY(-0.08em) rotate(-1deg);
+}
+
+.kw-stack {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 0.12em;
+}
+
+.kw-stack .py {
+  margin: 0;
+  line-height: 1;
+  transform: rotate(-1.5deg);
+}
+
+.kw-stack--below .py {
+  margin-top: 0.25cqw;
+}
+
+.kw-stack--above .py {
+  margin-bottom: 0.25cqw;
+}
+
+.kw-float {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-0.6cqw) rotate(-2deg);
+  padding-right: 1.4cqw;
+}
+
+.kw-float .py {
+  font-size: 1.85cqw;
+  margin: 0 0 0.35cqw;
+}
+
+.kw-float .kw {
+  font-family: var(--font-cn);
+  font-size: 5.5cqw;
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  body { padding: 10px; }
+  .desk { width: 100%; }
+}

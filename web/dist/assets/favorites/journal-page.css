@@ -1,0 +1,448 @@
+html[data-journal], html[data-journal] body {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  color-scheme: light;
+  background: transparent;
+}
+
+[data-journal] {
+  --journal-accent: #99546b;
+}
+
+[data-journal] :is(.exhibit, .desk) {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+
+[data-journal="seasons"] :is(.exhibit-heading, .controls) { display: none; }
+[data-journal="seasons"] .painting {
+  position: absolute;
+  inset: 8.4% 5.6% 3.4%;
+  width: auto;
+  aspect-ratio: auto;
+  transform: rotate(-.85deg);
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-journal="seasons"] .panel {
+  border-radius: 2px;
+  background: #ede2ce;
+  box-shadow: 0 3px 7px #5c3b361f;
+  transition: box-shadow .2s, translate .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+[data-journal="seasons"] .panel:focus-visible { outline: 2px solid var(--journal-accent); outline-offset: 3px; }
+[data-journal="seasons"] .panel-turn { pointer-events: auto; }
+[data-journal="seasons"] .panel[data-open] .panel-turn { transform: rotateX(-180deg); }
+[data-journal="seasons"] .season-back { transform: rotateX(180deg); }
+[data-journal="seasons"] :is(.season-front, .season-fold) {
+  border: 0;
+  padding: 0;
+  background: #ede2ce;
+  cursor: pointer;
+}
+[data-journal="seasons"] .season-fold { position: absolute; inset: 0; width: 100%; height: 100%; }
+[data-journal="seasons"] .season-art { display: block; width: 100%; height: 100%; pointer-events: none; }
+[data-journal="seasons"] :is(.season-front, .season-fold, .season-clip):focus-visible {
+  outline: 2px solid var(--journal-accent);
+  outline-offset: -2px;
+}
+[data-journal="seasons"] .season-lyrics {
+  position: absolute;
+  inset: 8% 6%;
+  overflow: auto;
+  border-radius: 2px;
+  background: #f9f2dff0;
+  box-shadow: 0 1px 4px #593f3438;
+}
+[data-journal="seasons"] .season-clip {
+  display: grid;
+  align-content: safe center;
+  gap: .1em;
+  width: 100%;
+  min-height: 100%;
+  padding: .3em .6em;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #43342d;
+  font: clamp(11px, 2.65vw, 19px) / 1.42 "Kaiti SC", KaiTi, "Songti SC", SimSun, serif;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+[data-journal="seasons"] .panel:hover { translate: 0 -2px; box-shadow: 0 5px 10px #5c3b3640; }
+[data-journal="pond"] .exhibit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 2.75fr) auto minmax(0, 2fr);
+  gap: clamp(4px, 1vh, 10px);
+  padding: 2vh 3vw;
+}
+[data-journal="pond"] .song-search {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 4%;
+  margin-top: clamp(-14px, -1.8vh, -2px);
+  margin-bottom: clamp(4px, 1vh, 10px);
+}
+[data-journal="pond"] .song-search-field {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.1vw, 8px);
+  width: min(86%, 340px);
+  height: clamp(22px, 3.5vh, 32px);
+  padding: 0 clamp(6px, 1.5vw, 10px);
+  border: 1px solid #8c6f6354;
+  border-radius: 999px;
+  background: transparent;
+  color: #7c6258;
+  transition: border-color .18s ease, color .18s ease;
+}
+[data-journal="pond"] .song-search-field:focus-within {
+  border-color: #99546ba6;
+  background: transparent;
+  color: #8e3e52;
+}
+[data-journal="pond"] .song-search-icon {
+  flex: 0 0 auto;
+  width: clamp(11px, 2.4vw, 15px);
+  height: clamp(11px, 2.4vw, 15px);
+  opacity: .76;
+  pointer-events: none;
+}
+[data-journal="pond"] .song-search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #38302b;
+  caret-color: #99546b;
+  font: clamp(11px, 2.6vw, 15px) / 1 "Kaiti SC", KaiTi, "Songti SC", SimSun, serif;
+}
+[data-journal="pond"] .song-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+[data-journal="pond"] .song-search-clear[hidden] {
+  display: none;
+}
+[data-journal="pond"] .song-search-clear {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: clamp(16px, 3.2vw, 20px);
+  height: clamp(16px, 3.2vw, 20px);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #8a6e65;
+  font: clamp(13px, 2.8vw, 16px) / 1 sans-serif;
+  cursor: pointer;
+}
+[data-journal="pond"] .song-search-clear:hover {
+  color: #8e3e52;
+  background: #aa536814;
+}
+[data-journal="pond"] .song-search-clear:focus-visible {
+  outline: 1px solid var(--journal-accent);
+  outline-offset: -1px;
+}
+[data-journal="pond"] .favorite-songs .favorite-empty {
+  padding: .32em .45em;
+  color: #8c7a72;
+  opacity: .7;
+  user-select: none;
+}
+[data-journal="pond"] .song-ring {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  justify-self: stretch;
+  container-type: size;
+}
+[data-journal="pond"] .note-sheet {
+  position: relative;
+  width: min(100cqw, calc(100cqh * 1508 / 1115));
+  aspect-ratio: 1508 / 1115;
+}
+[data-journal="pond"] .ring-sunlight,
+[data-journal="pond"] .music-note-ring,
+[data-journal="pond"] .music-note-flow {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+[data-journal="pond"] .ring-sunlight { z-index: 0; }
+[data-journal="pond"] .music-note-ring { z-index: 1; }
+[data-journal="pond"] .music-note-flow { z-index: 2; }
+[data-journal] :is(.favorite-songs, .season-lyrics, .garden-lyrics, .garden-note-pad, .paper-slip) {
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+[data-journal] :is(.favorite-songs, .season-lyrics, .garden-lyrics, .garden-note-pad, .paper-slip)::-webkit-scrollbar { display: none; }
+[data-journal="pond"] .favorite-songs {
+  z-index: 3;
+  position: absolute;
+  inset: 24% 20% 25%;
+  margin: 0;
+  padding: var(--song-list-start, 2px) 2px var(--song-list-end, 2px);
+  overflow: hidden auto;
+  scroll-snap-type: y mandatory;
+  list-style: none;
+  text-align: center;
+  font: clamp(11px, 3.25cqw, 23px) / 1.4 "Kaiti SC", KaiTi, "Songti SC", SimSun, serif;
+}
+[data-journal="pond"] .favorite-songs li {
+  scroll-snap-align: center;
+}
+[data-journal="pond"] .favorite-songs button {
+  display: block;
+  width: 100%;
+  padding: .32em .45em;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: #38302b;
+  font: inherit;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+[data-journal="pond"] .favorite-songs button[aria-pressed="true"] {
+  color: #8e3e52;
+  text-decoration: underline;
+  text-decoration-color: #a9586b75;
+  text-underline-offset: .25em;
+}
+[data-journal="pond"] .favorite-songs button:focus-visible { outline: 1px solid var(--journal-accent); outline-offset: -1px; }
+@media (hover: hover) {
+  [data-journal="pond"] .favorite-songs button:hover { color: #8e3e52; background: #aa536810; }
+}
+[data-journal="pond"] .pond-mount {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  justify-self: stretch;
+  container-type: size;
+}
+[data-journal="pond"] .painting {
+  --print-edge: clamp(2.5px, .95vw, 7px);
+  width: min(94%, calc(min(94cqh, 100cqh - 10px) * 1000 / 665));
+  overflow: visible;
+  transform: rotate(-2.8deg);
+  background: #fbf4e4;
+  box-shadow:
+    0 0 0 var(--print-edge) #fbf4e4,
+    0 0 0 calc(var(--print-edge) + .6px) #a18a654f,
+    1px 3px 7px var(--print-edge) #58412b42;
+}
+[data-journal="pond"] .painting:focus-visible {
+  outline: 2px solid var(--journal-accent);
+  outline-offset: calc(var(--print-edge) + clamp(1px, .45vw, 3px));
+}
+[data-journal="pond"] .scene { overflow: hidden; }
+
+[data-journal="pond"] .painting::before,
+[data-journal="pond"] .painting::after {
+  position: absolute;
+  z-index: 1;
+  width: 26%;
+  height: clamp(9px, 7.5cqh, 26px);
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(118deg, #fff8e046, transparent 39%, #fff8e039 68%, transparent),
+    repeating-linear-gradient(6deg, #fffae32e 0 1px, transparent 1px 3px),
+    linear-gradient(#e9d4a9b8, #ddbd8ac7 64%, #d6b47cb8);
+  box-shadow: inset 0 1px #fff9e287, inset 0 -1px #9a774049;
+  clip-path: polygon(
+    2% 4%, 30% 0, 62% 4%, 98% 0, 96% 14%, 100% 26%, 97% 40%, 100% 53%,
+    97% 67%, 100% 82%, 98% 98%, 65% 95%, 34% 100%, 0 97%, 3% 82%,
+    0 68%, 4% 53%, 1% 38%, 4% 21%
+  );
+}
+[data-journal="pond"] .painting::before {
+  top: 0;
+  left: 4.5%;
+  transform: translateY(-49%) rotate(-12deg);
+}
+[data-journal="pond"] .painting::after {
+  right: 5%;
+  bottom: 0;
+  width: 23%;
+  transform: translateY(42%) rotate(-16deg);
+}
+
+[data-journal="player"] { --ink: #493741; --red: #a74f63; }
+[data-journal="player"] .player {
+  position: absolute;
+  inset: 6% 6.5% 6%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: auto;
+}
+[data-journal="player"] .player::before { display: none; }
+[data-journal="player"] .paper { background: transparent; box-shadow: none; }
+[data-journal="player"] .paper::after {
+  background: radial-gradient(ellipse at 42% 26%, #fff7df94, #fff7df23 36%, transparent 63%);
+}
+[data-journal="player"] .doodles { color: #6a4650; }
+[data-journal="player"] .doodle { --angle: 0deg; }
+[data-journal="player"] .record-button {
+  top: 11.5%;
+  left: 50%;
+  width: min(54%, 39vh);
+  translate: -50%;
+}
+[data-journal="player"] :is(.record, .cover, .timeline, .transport) { transform: none; }
+[data-journal="player"] .cover { --cover-angle: 0deg; }
+[data-journal="player"] :is(.track, .count, .times) { display: none; }
+[data-journal="player"] .journal-back {
+  --slant: -5deg;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: clamp(26px, 8vw, 47px);
+  min-height: 0;
+  color: var(--ink);
+}
+[data-journal="player"] .queue[aria-pressed="true"] { color: #455632; }
+.journal-back[hidden], [data-journal="player"] :is(.add-audio, .cover[hidden]) { display: none; }
+[data-journal="player"] .transport button:disabled { cursor: default; opacity: .52; }
+[data-journal="player"] .actions {
+  top: 60.5%;
+  left: 19%;
+  right: 19%;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8%;
+}
+[data-journal="player"] :is(.favorite, .comments, .share) { margin-top: 0; }
+[data-journal="player"] :is(.favorite, .comments, .share) svg { justify-self: center; }
+[data-journal="player"] .timeline { top: 74%; left: 10%; right: 10%; }
+[data-journal="player"] .transport { top: 80%; left: 24%; right: 24%; }
+[data-journal="player"] .favorite[aria-pressed="true"] svg { fill: #aa5368; }
+[data-journal="player"] .seek .seek-progress { stroke: #78505e; }
+[data-journal="player"] .paper-slip {
+  border-color: #9a657864;
+  background: #fcf1de;
+  box-shadow: 2px 5px 15px #68424b38;
+}
+[data-journal="player"] .paper-slip :is(button, .add-audio, input[type="text"]) { border-color: #9a657864; }
+[data-journal="player"] .drawn-button { min-height: 0; --slant: 0deg; }
+
+[data-journal="dedication"] .page {
+  position: absolute;
+  top: 6.75%;
+  left: 50%;
+  width: auto;
+  height: 86.5%;
+  max-width: 86.5%;
+  aspect-ratio: 1122 / 1402;
+  transform: translateX(-50%) rotate(-1.35deg);
+  border: 1px solid #ac965267;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: 0 2px 6px #5d3a3128, 0 8px 17px #80614c1b;
+}
+[data-journal="dedication"] :is(.dedication, .date) { display: none; }
+[data-journal="dedication"] .garden-lyrics:not([hidden]) {
+  position: absolute;
+  z-index: 1;
+  inset: 28.5% 7.5% 41% 48.5%;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  align-items: flex-start;
+  gap: var(--lyric-gap, .55em);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 4px;
+  color: #343d24;
+  font-family: "Kaiti SC", KaiTi, STKaiti, "Songti SC", SimSun, serif;
+  font-size: var(--lyric-size, clamp(11px, 3.6cqw, 16px));
+  line-height: 1.35;
+  letter-spacing: .12em;
+  mix-blend-mode: multiply;
+}
+[data-journal="dedication"] .garden-lyrics[data-density="sparse"] {
+  --lyric-size: clamp(13px, 4.3cqw, 19px);
+  --lyric-gap: .75em;
+}
+[data-journal="dedication"] .garden-lyrics[data-density="medium"] {
+  --lyric-size: clamp(11px, 3.5cqw, 15.5px);
+  --lyric-gap: .5em;
+}
+[data-journal="dedication"] .garden-lyrics[data-density="dense"] {
+  --lyric-size: clamp(10px, 3cqw, 13.5px);
+  --lyric-gap: .36em;
+}
+[data-journal="dedication"] .garden-lyrics .lyric-line {
+  margin: 0;
+  max-height: 100%;
+  animation: garden-line-in .35s ease-out calc(var(--i, 0) * 40ms) both;
+}
+[data-journal="dedication"] .garden-lyrics .lyric-line:nth-child(even) {
+  padding-top: .55em;
+}
+[data-journal="dedication"] .garden-lyrics:focus-visible { outline: 1px dashed #78835c; outline-offset: -1px; }
+
+[data-journal="dedication"] .garden-notes:not([hidden]) {
+  position: absolute;
+  z-index: 1;
+  inset: 28.5% 7.5% 41% 48.5%;
+  display: flex;
+  animation: garden-lyrics-in .25s ease-out both;
+}
+[data-journal="dedication"] .garden-note-pad {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 4px 2px;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: #463338;
+  caret-color: #955468;
+  mix-blend-mode: multiply;
+  font: clamp(11px, 3.8cqw, 16px) / 1.55 "Kaiti SC", KaiTi, STKaiti, "Songti SC", SimSun, serif;
+  letter-spacing: .04em;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+@keyframes garden-lyrics-in { from { opacity: 0; translate: 0 3px; } }
+@keyframes garden-line-in {
+  from { opacity: 0; translate: 0 4px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-journal="dedication"] .garden-lyrics,
+  [data-journal="dedication"] .garden-lyrics .lyric-line,
+  [data-journal="dedication"] .garden-notes { animation: none; }
+}
+
+@media (max-width: 260px) {
+  [data-journal="player"] .drawn-button { padding: 2px; }
+  [data-journal="player"] .paper-slip { right: 2%; width: 96%; padding: 8px; }
+}

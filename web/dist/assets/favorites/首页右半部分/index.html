@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#18251e">
+  <meta name="description" content="风吹动池边的花草，七条小鱼在水里游动。">
+  <title>花间池塘</title>
+  <script src="../journal-embed.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../journal-page.css">
+  <script src="../flower-garden.js" defer></script>
+  <script src="./garden.js" defer></script>
+  <script src="./note-ring-data.js" defer></script>
+  <script src="./note-ring-flow.js" defer></script>
+  <script src="./pond.js" defer></script>
+</head>
+<body>
+  <main class="exhibit">
+    <div class="song-ring">
+      <div class="note-sheet">
+        <img class="music-note-ring" src="./music-staff-only.webp" width="1508" height="1115" alt="" draggable="false" decoding="async">
+        <ul class="favorite-songs" aria-label="收藏歌曲"></ul>
+      </div>
+    </div>
+    <div class="song-search">
+      <div class="song-search-field">
+        <svg class="song-search-icon" viewBox="0 0 18 18" aria-hidden="true">
+          <circle cx="7.8" cy="7.8" r="5.1" fill="none" stroke="currentColor" stroke-width="1.35"></circle>
+          <path d="M11.7 11.7 15.6 15.6" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round"></path>
+        </svg>
+        <input class="song-search-input" type="search" autocomplete="off" spellcheck="false" aria-label="搜索收藏的歌词、歌名或歌手">
+        <button class="song-search-clear" type="button" aria-label="清空搜索" hidden>&times;</button>
+      </div>
+    </div>
+    <div class="pond-mount">
+      <button class="painting" type="button" aria-label="花间池塘。轻点水面，拨出涟漪。">
+        <span class="scene" aria-hidden="true">
+          <img class="pond-background" src="./pond-background.webp" alt="" draggable="false" decoding="async" fetchpriority="high">
+          <span class="original-water">
+            <img class="artwork" src="./pond-reference.webp" alt="" draggable="false" decoding="async">
+            <span class="water-patch water-patch--lower"></span>
+            <span class="water-patch water-patch--center"></span>
+            <span class="water-patch water-patch--upper"></span>
+          </span>
+          <canvas class="water" width="800" height="532"></canvas>
+          <canvas class="flowers" width="1000" height="665"></canvas>
+        </span>
+      </button>
+    </div>
+  </main>
+</body>
+</html>

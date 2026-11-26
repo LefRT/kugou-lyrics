@@ -1,0 +1,24 @@
+{
+  "name": "kugou-lyrics-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:demo": "tsc --noEmit && vite build --mode demo --outDir dist-demo",
+    "preview": "vite preview",
+    "test:wind-score": "node --test tests/wind-score.test.cjs",
+    "test:typing": "node --test tests/typing-language.test.cjs",
+    "test": "node --test tests/*.test.cjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7"
+  },
+  "dependencies": {
+    "kuromoji": "0.1.2",
+    "pinyin-pro": "^3.29.5",
+    "wanakana": "5.3.1"
+  }
+}

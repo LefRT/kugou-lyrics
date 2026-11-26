@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0eee7">
+  <meta name="description" content="翻开四张画片，看同一棵树走过春夏秋冬。">
+  <title>一树四季</title>
+  <script src="../journal-embed.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="../journal-page.css">
+  <script src="./paper.js" defer></script>
+  <script src="./seasons.js" defer></script>
+</head>
+<body>
+  <main class="exhibit">
+    <header class="exhibit-heading">
+      <h1>一树四季</h1>
+      <p id="instructions">轻点画片，翻出四季</p>
+    </header>
+
+    <div class="painting" role="group" aria-label="春夏秋冬画片" aria-describedby="instructions">
+      <canvas class="paper" width="620" height="830" aria-hidden="true"></canvas>
+      <button class="panel panel--spring" type="button" aria-label="春 · 繁花" aria-pressed="false" data-season="spring">
+        <span class="panel-turn" aria-hidden="true">
+          <canvas class="face face--gray" width="422" height="154"></canvas>
+          <canvas class="face face--color" width="422" height="154"></canvas>
+        </span>
+      </button>
+      <button class="panel panel--summer" type="button" aria-label="夏 · 青叶红果" aria-pressed="false" data-season="summer">
+        <span class="panel-turn" aria-hidden="true">
+          <canvas class="face face--gray" width="422" height="154"></canvas>
+          <canvas class="face face--color" width="422" height="154"></canvas>
+        </span>
+      </button>
+      <button class="panel panel--autumn" type="button" aria-label="秋 · 金叶" aria-pressed="false" data-season="autumn">
+        <span class="panel-turn" aria-hidden="true">
+          <canvas class="face face--gray" width="422" height="154"></canvas>
+          <canvas class="face face--color" width="422" height="154"></canvas>
+        </span>
+      </button>
+      <button class="panel panel--winter" type="button" aria-label="冬 · 初雪" aria-pressed="false" data-season="winter">
+        <span class="panel-turn" aria-hidden="true">
+          <canvas class="face face--gray" width="422" height="154"></canvas>
+          <canvas class="face face--color" width="422" height="154"></canvas>
+        </span>
+      </button>
+    </div>
+
+    <div class="controls" aria-label="画片控制" role="group">
+      <button type="button" id="reveal">依次翻开</button>
+      <button type="button" id="reset" disabled>全部复原</button>
+    </div>
+  </main>
+</body>
+</html>

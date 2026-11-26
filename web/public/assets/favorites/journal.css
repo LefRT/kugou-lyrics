@@ -1,0 +1,541 @@
+:root {
+  color-scheme: light;
+  --ink: #453338;
+  --rose: #955468;
+  --serif: "Songti SC", SimSun, "Noto Serif CJK SC", serif;
+  font-family: var(--serif);
+  background: #e8ddd3 url("./desk-wood.webp") center / 100% 100% fixed no-repeat;
+  color: var(--ink);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; min-width: 300px; min-height: 100svh; overflow-x: hidden; }
+
+.sun-desk {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sun-desk { z-index: -1; }
+
+.sun-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  background:
+    radial-gradient(ellipse 46% 54% at 50% 47%, rgba(255, 206, 138, 0.14) 0%, rgba(255, 182, 104, 0.04) 50%, transparent 74%),
+    radial-gradient(ellipse 78% 82% at 50% 50%, transparent 46%, rgba(6, 9, 20, 0.54) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  background:
+    radial-gradient(ellipse 52% 62% at 50% 49%, rgba(255, 198, 128, 0.11) 0%, transparent 62%),
+    radial-gradient(ellipse 74% 82% at 50% 50%, rgba(24, 22, 34, 0.72) 0%, rgba(12, 15, 28, 0.88) 72%, rgba(7, 10, 20, 0.94) 100%);
+}
+
+[hidden] { display: none !important; }
+
+.journal {
+  --side-space: clamp(14px, 1.8vw, 30px);
+  --top-space: calc(64px + clamp(22px, 3svh, 38px));
+  --bottom-space: clamp(30px, 4.4svh, 48px);
+  --binding-depth: 10px;
+  --page-ratio: .618;
+  --spread-ratio: calc(2 * var(--page-ratio));
+  --book-max-height: max(1px, calc(100svh - var(--top-space) - var(--bottom-space) - var(--binding-depth)));
+  --book-max-width: calc(var(--book-max-height) * var(--spread-ratio));
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: var(--top-space) var(--side-space) var(--bottom-space);
+}
+
+.desk-side {
+  position: absolute;
+  top: 0;
+  width: max(var(--side-space), calc((100vw - var(--book-max-width)) / 2));
+  height: 100svh;
+  display: grid;
+  place-items: center;
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+.desk-left { left: 0; }
+.desk-right { right: 0; }
+
+.desk-portrait, .desk-sunlight, .desk-cassette {
+  display: none;
+}
+
+.desk-cassette {
+  position: absolute;
+  left: 51%;
+  bottom: clamp(26px, 9.5svh, 108px);
+  width: min(82%, 27svh, 300px);
+  aspect-ratio: 1064 / 839;
+  transform: translateX(-50%) rotate(-2deg);
+  mix-blend-mode: multiply;
+  opacity: .78;
+}
+
+.desk-portrait {
+  position: relative;
+  width: min(74%, 40svh, 420px);
+  aspect-ratio: 780 / 830;
+  transform: translateY(2svh) rotate(-4deg);
+}
+
+.desk-left .desk-portrait {
+  width: min(70%, 33svh, 370px);
+  aspect-ratio: 720 / 883;
+  transform: none;
+  mask-image: linear-gradient(black 91%, transparent 100%);
+}
+
+.desk-right .desk-portrait::before, .desk-right .desk-portrait::after {
+  position: absolute;
+  content: "";
+}
+
+.desk-right .desk-portrait::before {
+  inset: 0;
+  background: url("./sunlight-girl.webp") center / contain no-repeat;
+  /* Feather along the old object's lower edge without moving the graphite drawing. */
+  mask-image: linear-gradient(184.3deg, transparent 12%, black 12.7%);
+}
+
+.desk-right .desk-portrait::after {
+  left: 3%;
+  bottom: 1%;
+  width: 92%;
+  aspect-ratio: 760 / 51;
+  background: url("./desk-pencil.webp") center / contain no-repeat;
+  transform: rotate(13deg);
+  filter: drop-shadow(1px 2px 1.5px #60462d70);
+}
+
+.desk-sunlight {
+  position: absolute;
+  top: 49%;
+  left: 48%;
+  width: min(123%, 57svh, 610px);
+  aspect-ratio: 576 / 612;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  mix-blend-mode: hard-light;
+  filter: saturate(2.2) hue-rotate(-9deg);
+  opacity: .88;
+  mask-image: radial-gradient(ellipse 69% 67% at center, black 37%, transparent 77%);
+}
+
+.desk-left .desk-sunlight {
+  top: 42%;
+  left: 55%;
+  width: min(116%, 53svh, 540px);
+  aspect-ratio: 576 / 526;
+  transform: translate(-50%, -50%);
+  mask-image: linear-gradient(transparent, black 17% 72%, transparent),
+              linear-gradient(to left, transparent, black 17% 84%, transparent);
+  mask-composite: intersect;
+}
+
+@container (width > 140px) {
+  .desk-portrait, .desk-sunlight, .desk-cassette { display: block; }
+  .desk-left .desk-portrait {
+    background: url("./blue-eyed-girl.webp") center / contain no-repeat;
+  }
+  .desk-left .desk-cassette {
+    background: url("./desk-cassette.webp") center / contain no-repeat;
+  }
+  .desk-left .desk-sunlight {
+    background: url("./left-desk-sunlight.webp") center / contain no-repeat;
+  }
+  .desk-right .desk-sunlight {
+    background: url("./desk-sunlight.webp") center / contain no-repeat;
+  }
+}
+
+.book {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, var(--book-max-width));
+  aspect-ratio: var(--spread-ratio);
+  margin-block-end: var(--binding-depth);
+  perspective: 5100px;
+  perspective-origin: 50% 51%;
+  --paper: url("./journal-paper.webp");
+}
+
+.binding {
+  position: absolute;
+  z-index: -2;
+  inset: 2px -6px calc(-1 * var(--binding-depth));
+  border-radius: 13px 13px 13px 12px;
+  background: linear-gradient(132deg, #c68695 0%, #b97988 52%, #a66676 100%);
+  /* Directional upper-left sun -> contact AO + umbra + soft cool-tinted penumbra to bottom-right */
+  box-shadow:
+    inset 1.5px 1.5px 2px rgba(255, 249, 236, 0.48),
+    inset -1.5px -2px 3px rgba(82, 38, 52, 0.34),
+    2px 3px 5px rgba(66, 36, 42, 0.36),
+    8px 11px 16px rgba(74, 44, 52, 0.28),
+    20px 26px 38px rgba(78, 50, 62, 0.21),
+    38px 46px 68px rgba(86, 60, 76, 0.14);
+}
+
+.binding::before, .binding::after {
+  position: absolute;
+  inset: 0 50% 2px 2px;
+  content: "";
+  border-radius: 9px 2px 2px 10px;
+  background:
+    linear-gradient(90deg, #a4836c14, transparent 6%, transparent 85%, #8b675c3b),
+    repeating-linear-gradient(180deg, #f3e7cd 0 1px, #b99d8638 1px 2px, #e7d7bd 2px 3px);
+  box-shadow: 0 1px 1px #714b5282;
+}
+
+.binding::after { inset: 0 2px 2px 50%; transform: scaleX(-1); }
+
+.heart-tabs {
+  position: absolute;
+  z-index: 4;
+  top: -4px;
+  right: 6.2%;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity .26s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+.book[data-spread="lyrics"]:not([data-turning]) .heart-tabs {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.heart-tab {
+  position: relative;
+  border: 0;
+  padding: 0;
+  width: 22px;
+  height: 44px;
+  cursor: pointer;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 51% 82%, 0 100%);
+  filter:
+    drop-shadow(1.5px 2.5px 1.5px rgba(68, 38, 46, 0.24))
+    drop-shadow(4px 6px 6px rgba(78, 48, 58, 0.2));
+  transition: height .22s ease, transform .22s ease, filter .2s ease;
+}
+.heart-tab--lyrics {
+  transform: rotate(3deg);
+  background: linear-gradient(102deg, #6b8449 0%, #8aa566 28%, #9cb779 54%, #5e773e 86%, #4b6130 100%);
+}
+.heart-tab--notes {
+  transform: rotate(-4deg);
+  background: linear-gradient(102deg, #b86c80 0%, #d4909f 28%, #e2a5b2 54%, #a85b70 86%, #8d475c 100%);
+}
+.heart-tab:hover {
+  height: 50px;
+  filter:
+    brightness(1.04)
+    drop-shadow(1.5px 3px 2px rgba(68, 38, 46, 0.26))
+    drop-shadow(5px 7px 7px rgba(78, 48, 58, 0.22));
+}
+.heart-tab.is-active {
+  height: 54px;
+  filter:
+    brightness(1.05)
+    drop-shadow(1.5px 3px 2px rgba(68, 38, 46, 0.28))
+    drop-shadow(6px 8px 7px rgba(78, 48, 58, 0.24));
+}
+.heart-tab:focus-visible {
+  outline: 2px dashed var(--rose);
+  outline-offset: 2px;
+}
+
+.journal-profile {
+  position: absolute;
+  z-index: 2;
+  top: 2.6%;
+  left: 5.4%;
+  right: 8%;
+  display: flex;
+  align-items: center;
+  gap: clamp(7px, 1.3%, 12px);
+  pointer-events: none;
+}
+.journal-avatar {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(26px, 6.4%, 36px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid rgba(112, 90, 94, 0.32);
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 253, 246, 0.65);
+  box-shadow: 0 1px 3px rgba(84, 58, 52, 0.1);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color .22s ease, transform .22s ease, box-shadow .22s ease;
+}
+.journal-avatar:hover {
+  border-color: rgba(149, 84, 104, 0.56);
+  transform: scale(1.03);
+  box-shadow: 0 2px 6px rgba(84, 58, 52, 0.16);
+}
+.journal-avatar:focus-visible {
+  outline: 1px dashed var(--rose);
+  outline-offset: 2px;
+}
+.journal-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.journal-avatar-empty {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.journal-avatar-empty::before,
+.journal-avatar-empty::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgba(112, 90, 94, 0.42);
+  transform: translate(-50%, -50%);
+}
+.journal-avatar-empty::before { width: 32%; height: 1px; }
+.journal-avatar-empty::after { width: 1px; height: 32%; }
+.journal-avatar.has-image .journal-avatar-empty { display: none; }
+
+.journal-profile-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  pointer-events: auto;
+}
+.journal-profile-name,
+.journal-profile-bio {
+  width: 100%;
+  padding: 0 0 1px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  outline: none;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Noto Sans CJK SC", sans-serif;
+  font-weight: 200;
+  -webkit-font-smoothing: antialiased;
+  transition: border-color .2s ease, color .2s ease;
+}
+.journal-profile-name {
+  font-size: clamp(9px, 1.08vw, 11px);
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  color: rgba(69, 51, 56, 0.78);
+}
+.journal-profile-bio {
+  font-size: clamp(7.5px, 0.88vw, 9.2px);
+  line-height: 1.35;
+  letter-spacing: 0.12em;
+  color: rgba(98, 79, 83, 0.56);
+}
+.journal-profile-name::placeholder { color: rgba(112, 90, 94, 0.34); }
+.journal-profile-bio::placeholder { color: rgba(112, 90, 94, 0.28); }
+.journal-profile-name:focus,
+.journal-profile-bio:focus {
+  border-bottom-color: rgba(149, 84, 104, 0.28);
+}
+
+.page {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 50%;
+  overflow: hidden;
+  background-color: #fffdf6;
+  background-image: var(--gutter), var(--paper);
+  background-size: 100% 100%;
+  box-shadow: inset 0 0 0 1px #b89b7824, inset 0 1px 2px #ffffff;
+}
+
+.page--left {
+  --gutter: linear-gradient(90deg, #a1816312, transparent 2.2%, transparent 88%, #62453b0c 95%, #59403630 99%, #5430243d);
+  border-radius: 10px 2px 1px 9px;
+}
+
+.page--right {
+  --gutter: linear-gradient(90deg, #54302438, #63473e18 2.5%, transparent 11%, transparent 98%, #9d806614);
+  left: 50%;
+  border-radius: 2px 10px 9px 1px;
+}
+
+.page iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: brightness(1.04) saturate(1.24) contrast(1.05);
+}
+.page[inert] iframe { pointer-events: none; }
+
+.leaf {
+  position: absolute;
+  z-index: 2;
+  inset: 0 0 0 50%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+}
+.leaf-face { inset: 0; width: 100%; backface-visibility: hidden; }
+.leaf-front { transform: translateZ(.3px); }
+.leaf-back { transform: rotateY(180deg) translateZ(.3px); }
+.book[data-spread="lyrics"] .leaf { transform: rotateY(-180deg); }
+
+.leaf-face::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+  opacity: var(--flex, 0);
+}
+.leaf-front::after { background: linear-gradient(100deg, #32192e38, transparent 33%, #fff9e988 65%, #53374536); }
+.leaf-back::after { background: linear-gradient(90deg, #4e2a453a, #fffbe58c 21%, transparent 56%, #3a233332); }
+
+.cast-shadow {
+  position: absolute;
+  z-index: 1;
+  top: .55%;
+  bottom: .55%;
+  width: 48.5%;
+  pointer-events: none;
+  opacity: 0;
+}
+.cast-shadow--left {
+  right: 50%;
+  transform-origin: right center;
+  transform: scaleX(var(--shade-left, 0));
+  background: linear-gradient(90deg, transparent, #5c364232 60%, #482a3f66);
+}
+.cast-shadow--right {
+  left: 50%;
+  transform-origin: left center;
+  transform: scaleX(var(--shade-right, 0));
+  background: linear-gradient(270deg, transparent, #5c364232 60%, #482a3f66);
+}
+.book[data-turning] .leaf-face { border-radius: 12px 9px 8px 13px / 7px 13px 10px 10px; }
+.book[data-turning] .leaf-front { clip-path: var(--front-outline, none); }
+.book[data-turning] .leaf-back { clip-path: var(--back-outline, none); }
+.book[data-turning] .cast-shadow { opacity: var(--flex, 0); }
+
+.sun-book {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 10px 10px 9px 9px;
+  transition: opacity 0.28s ease;
+}
+.book[data-turning] .sun-book {
+  opacity: 0.42;
+}
+
+@media (max-width: 750px) {
+  .book { perspective: 2700px; }
+}
+
+@media (max-width: 500px) {
+  .journal { --vertical-space: 30px; --binding-depth: 5px; }
+  .book { perspective: 1640px; }
+  .binding { inset-inline: -3px; inset-block-start: 0; border-radius: 7px; }
+  .heart-tabs { right: 5%; gap: 8px; }
+  .heart-tab { width: 15px; height: 32px; }
+  .heart-tab:hover { height: 36px; }
+  .heart-tab.is-active { height: 40px; }
+}
+
+/* ============================================================
+   黑夜模式：深夜台灯与微蓝月光书桌
+   ============================================================ */
+.page,
+.binding,
+.heart-tabs,
+.desk-portrait,
+.desk-cassette,
+.desk-sunlight,
+.sun-desk {
+  transition: filter 0.55s ease, opacity 0.55s ease, box-shadow 0.55s ease;
+}
+
+html[data-theme="night"] body::before {
+  opacity: 1;
+}
+
+html[data-theme="night"] .sun-atmosphere {
+  opacity: 1;
+}
+
+/* 桌面树影与猫影沉入夜色，保留轻柔月光剪影 */
+html[data-theme="night"] .sun-desk {
+  filter: brightness(0.42) contrast(1.2);
+  opacity: 0.72;
+}
+
+/* 两侧铅笔画与磁带随桌边暗下来，自然融入夜色 */
+html[data-theme="night"] .desk-portrait {
+  filter: brightness(0.56) sepia(0.1) contrast(1.06);
+  opacity: 0.78;
+}
+
+html[data-theme="night"] .desk-cassette {
+  mix-blend-mode: normal;
+  filter: invert(0.84) sepia(0.18) brightness(0.62) contrast(1.05);
+  opacity: 0.34;
+}
+
+/* 午后光斑转为淡淡银蓝月光斑 */
+html[data-theme="night"] .desk-sunlight {
+  mix-blend-mode: screen;
+  filter: hue-rotate(176deg) saturate(0.75) brightness(0.72);
+  opacity: 0.34;
+}
+
+/* 书脊布面沉为深夜酒红，书页沐浴在柔和暖黄台灯光晕里（不破坏翻页 3D） */
+html[data-theme="night"] .binding {
+  filter: brightness(0.52) saturate(0.82);
+  box-shadow:
+    inset 1.5px 1.5px 2px rgba(255, 224, 178, 0.24),
+    inset -1.5px -2px 3px rgba(10, 6, 16, 0.62),
+    0 10px 26px rgba(4, 6, 14, 0.62),
+    0 24px 56px rgba(4, 7, 18, 0.55);
+}
+
+html[data-theme="night"] .page {
+  filter: brightness(0.82) sepia(0.15) saturate(0.93) contrast(1.03);
+}
+
+html[data-theme="night"] .heart-tabs {
+  filter: brightness(0.78) sepia(0.1);
+}
