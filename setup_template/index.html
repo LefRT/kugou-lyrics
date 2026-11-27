@@ -244,8 +244,13 @@
         if (data.status === 4) {
           clearInterval(qrTimer);
           $('qr-status').className = 'status-line ok';
-          $('qr-status').textContent = '登录成功，正在进入数据同步…';
-          enterSyncStep(data.userid || '', 0, true);
+          $('qr-status').textContent = '登录成功，请选择同步范围后点「开始同步歌词」。';
+          let count = 0;
+          try {
+            const st = await (await fetch('/api/setup/status')).json();
+            count = st.song_count || 0;
+          } catch {}
+          enterSyncStep(data.userid || '', count);
           return;
         }
         if (data.status === 0) {
@@ -262,17 +267,21 @@
       }
     }
 
-    function enterSyncStep(userid, count, autoStart) {
+    function enterSyncStep(userid, count) {
       setStep('sync');
       $('user-banner').textContent = `已登录酷狗账号（ID: ${userid || '已就绪'}）` +
-        (count > 0 ? ` · 当前库内已有 ${count} 首歌曲` : ' · 首次使用，准备拉取你的收藏歌词');
+        (count > 0 ? ` · 当前库内已有 ${count} 首歌曲` : ' · 请选择同步范围后点「开始同步歌词」');
       $('btn-enter').hidden = count === 0;
-      if (autoStart) startSync();
+    }
+
+    function setScopeEnabled(on) {
+      document.querySelectorAll('input[name="scope"]').forEach(el => { el.disabled = !on; });
     }
 
     async function startSync() {
       const scope = document.querySelector('input[name="scope"]:checked')?.value || 'liked';
       $('btn-sync').disabled = true;
+      setScopeEnabled(false);
       $('progress-area').hidden = false;
       $('sync-msg').className = 'status-line';
       $('sync-msg').textContent = '';
@@ -288,6 +297,7 @@
         syncTimer = setInterval(pollSync, 1000);
       } catch (e) {
         $('btn-sync').disabled = false;
+        setScopeEnabled(true);
         $('sync-msg').className = 'status-line err';
         $('sync-msg').textContent = '启动同步失败：' + (e.message || e);
       }
@@ -303,6 +313,7 @@
 
     function renderSync(s) {
       $('progress-area').hidden = false;
+      setScopeEnabled(!s.running);
       if (s.phase === 'covers') {
         const cpct = s.cover_total > 0 ? Math.min(100, Math.round((s.cover_done / s.cover_total) * 100)) : 8;
         $('bar-fill').style.width = cpct + '%';
@@ -319,6 +330,7 @@
       if (s.error) {
         clearInterval(syncTimer);
         $('btn-sync').disabled = false;
+        setScopeEnabled(true);
         $('sync-msg').className = 'status-line err';
         $('sync-msg').textContent = s.error;
         return;
@@ -326,13 +338,13 @@
       if (!s.running && s.finished) {
         clearInterval(syncTimer);
         $('btn-sync').disabled = false;
+        setScopeEnabled(true);
         $('st-sync').className = 'step done';
         $('btn-enter').hidden = false;
         $('sync-msg').className = 'status-line ok';
         $('sync-msg').textContent = s.cover_error
-          ? '同步完成（封面稍后重试）！即将进入音乐网站…'
-          : '同步完成，歌词与专辑封面已就绪！即将进入音乐网站…';
-        setTimeout(() => { location.href = '/'; }, 1400);
+          ? '同步完成（封面稍后重试）。点击「进入音乐网站」继续，或改选范围后重新同步。'
+          : '同步完成，歌词与专辑封面已就绪。点击「进入音乐网站」继续，或改选范围后重新同步。';
       }
     }
 
@@ -345,12 +357,12 @@
       const st = await res.json();
       if (st.song_count > 0) $('btn-enter-early').hidden = false;
       if (st.sync && st.sync.running) {
-        enterSyncStep(st.userid, st.song_count, false);
+        enterSyncStep(st.userid, st.song_count);
         $('btn-sync').disabled = true;
         renderSync(st.sync);
         syncTimer = setInterval(pollSync, 1000);
       } else if (st.logged_in) {
-        enterSyncStep(st.userid, st.song_count, false);
+        enterSyncStep(st.userid, st.song_count);
       } else {
         setStep('login');
         loadQr();
