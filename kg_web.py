@@ -32,6 +32,7 @@ sys.dont_write_bytecode = True
 BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 import kg_api  # noqa: E402
+import kg_covers  # noqa: E402
 import kg_krc  # noqa: E402
 import kg_lyric_search  # noqa: E402
 import kg_playback  # noqa: E402
@@ -1340,6 +1341,11 @@ def main():
     except Exception as e:  # noqa: BLE001
         print(f"旧歌词文本迁移失败（不影响启动）：{type(e).__name__}: {e}")
     _load_tasks()
+    # 已有歌词库但封面缓存缺失（或新加了歌）时，后台补拉一次，页面刷新即可看到封面墙
+    try:
+        kg_covers.ensure_library_covers(DB_PATH)
+    except Exception as e:  # noqa: BLE001
+        print(f"封面后台补拉未启动（不影响使用）：{type(e).__name__}: {e}")
     # Windows 上 HTTPServer 默认 allow_reuse_address=1：端口被占也能"成功"绑定，
     # 浏览器打开的却是占坑服务的页面且毫无报错。关掉它，让冲突被真正检测出来，
     # 再依次向后找空闲端口，保证双击 start.bat 打开的一定是本站

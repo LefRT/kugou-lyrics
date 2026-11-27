@@ -1,0 +1,4 @@
+# Windows 批处理必须是 CRLF，否则 cmd 按字节解析会错位、双击无反应。
+# 仓库内统一存 LF，检出到任何系统都自动还原 CRLF。
+*.bat text eol=crlf
+*.cmd text eol=crlf
