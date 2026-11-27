@@ -176,6 +176,7 @@ if (window.JournalPage) {
     if (!clearAll) return;
     clearAll.classList.remove("is-armed");
     clearAll.textContent = "清空收藏";
+    clearAll.setAttribute("aria-label", "清空全部收藏的歌词");
   }
 
   if (clearAll) {
@@ -184,7 +185,8 @@ if (window.JournalPage) {
       if (!clearArmed) {
         clearArmed = true;
         clearAll.classList.add("is-armed");
-        clearAll.textContent = "再点一次确认清空";
+        clearAll.textContent = "确定";
+        clearAll.setAttribute("aria-label", "确定清空全部收藏的歌词");
         clearTimeout(clearTimer);
         clearTimer = setTimeout(resetClearConfirm, 4000);
         return;
