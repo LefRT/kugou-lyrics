@@ -406,6 +406,21 @@
       record.contentWindow.JournalPlayer?.leave();
       turnTo('index', moveFocus);
     },
+    clearFavorites() {
+      try { localStorage.removeItem(favoritesKey); } catch { /* ignore */ }
+      loadRevision++;
+      songs = [];
+      selected = null;
+      currentSongId = null;
+      clipLyrics = [];
+      if (spread === 'lyrics') {
+        record.contentWindow?.JournalPlayer?.stop();
+        turnTo('index', false);
+      }
+      message(seasons, 'reset-clips');
+      message(garden, 'clip-lyrics', { lines: [] });
+      showSongs();
+    },
   };
 
   document.addEventListener('keydown', event => {

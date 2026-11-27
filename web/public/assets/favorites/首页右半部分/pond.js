@@ -8,6 +8,10 @@ if (window.JournalPage) {
   const songList = document.querySelector(".favorite-songs");
   const searchInput = document.querySelector(".song-search-input");
   const searchClear = document.querySelector(".song-search-clear");
+  const clearAll = document.querySelector(".song-clear-all");
+  const clearStatus = document.querySelector(".song-clear-status");
+  let clearArmed = false;
+  let clearTimer = 0;
   let allSongs = [];
   let currentSelectedId = null;
   let buttons = [];
@@ -113,7 +117,14 @@ if (window.JournalPage) {
       empty.textContent = "—";
       empty.setAttribute("aria-label", "没有匹配的收藏");
       items.push(empty);
+    } else if (!items.length) {
+      const empty = document.createElement("li");
+      empty.className = "favorite-empty";
+      empty.textContent = "还没有收藏的歌词";
+      empty.setAttribute("aria-label", "还没有收藏的歌词");
+      items.push(empty);
     }
+    if (clearAll) clearAll.hidden = !allSongs.length;
 
     songList.replaceChildren(...items);
     const activeEntry = matchedEntries.find(entry => entry.song.id === currentSelectedId) ?? matchedEntries[0] ?? null;
@@ -156,6 +167,36 @@ if (window.JournalPage) {
       searchInput.value = "";
       renderSongs({ autoSelect: true });
       searchInput.focus();
+    });
+  }
+
+  function resetClearConfirm() {
+    clearArmed = false;
+    clearTimeout(clearTimer);
+    if (!clearAll) return;
+    clearAll.classList.remove("is-armed");
+    clearAll.textContent = "清空收藏";
+  }
+
+  if (clearAll) {
+    clearAll.addEventListener("click", () => {
+      if (!allSongs.length) return;
+      if (!clearArmed) {
+        clearArmed = true;
+        clearAll.classList.add("is-armed");
+        clearAll.textContent = "再点一次确认清空";
+        clearTimeout(clearTimer);
+        clearTimer = setTimeout(resetClearConfirm, 4000);
+        return;
+      }
+      resetClearConfirm();
+      if (searchInput) searchInput.value = "";
+      window.JournalPage.favorites?.clearFavorites?.();
+      if (clearStatus) {
+        clearStatus.textContent = "已清空收藏";
+        clearStatus.classList.add("is-visible");
+        setTimeout(() => clearStatus.classList.remove("is-visible"), 2200);
+      }
     });
   }
 
