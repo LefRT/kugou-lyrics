@@ -7,6 +7,7 @@ import time
 from contextlib import closing
 
 import kg_api
+import kg_covers
 import kg_qr
 import kg_store
 
@@ -28,6 +29,11 @@ _sync_state = {
     "lrc": 0,
     "none": 0,
     "skipped": 0,
+    "cover_total": 0,
+    "cover_done": 0,
+    "cover_ok": 0,
+    "cover_fail": 0,
+    "cover_error": None,
     "current": "",
     "error": None,
 }
@@ -198,6 +204,21 @@ def _run_sync(db_path: str, scope: str, force: bool):
                 time.sleep(0.18)
             _update_sync(playlists_done=p_idx + 1)
 
+        def _cover_progress(stats):
+            _update_sync(
+                cover_total=stats.get("total", 0),
+                cover_done=stats.get("done", 0),
+                cover_ok=stats.get("ok", 0),
+                cover_fail=stats.get("fail", 0),
+            )
+
+        # 歌词同步后顺手补齐专辑封面（断点续跑，失败不影响同步完成）
+        _update_sync(phase="covers", current="正在拉取专辑封面…")
+        try:
+            kg_covers.fetch_library(db_path, progress=_cover_progress)
+        except Exception as e:
+            _update_sync(cover_error=f"封面拉取未完成：{e}"[:160])
+
         _update_sync(
             running=False, finished=True, phase="done",
             done=total_tracks, total=total_tracks,
@@ -226,6 +247,11 @@ def start_sync(db_path: str, scope: str = "liked", force: bool = False) -> tuple
             "lrc": 0,
             "none": 0,
             "skipped": 0,
+            "cover_total": 0,
+            "cover_done": 0,
+            "cover_ok": 0,
+            "cover_fail": 0,
+            "cover_error": None,
             "current": "正在准备同步…",
             "error": None,
         })

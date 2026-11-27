@@ -101,7 +101,10 @@ class SetupFlowTest(unittest.TestCase):
         }
         with mock.patch.object(kg_api.KugouClient, "user_playlists", return_value=fake_playlists), \
              mock.patch.object(kg_api.KugouClient, "playlist_tracks", return_value=fake_tracks), \
-             mock.patch.object(kg_api.KugouClient, "fetch_lyrics", return_value=fake_lyric):
+             mock.patch.object(kg_api.KugouClient, "fetch_lyrics", return_value=fake_lyric), \
+             mock.patch("kg_covers.fetch_library",
+                        return_value={"total": 1, "done": 1, "ok": 1,
+                                      "fail": 0, "reuse": 0}) as covers_fetch:
             req = urllib.request.Request(
                 self._url("/api/setup/sync"),
                 data=json.dumps({"scope": "liked"}).encode("utf-8"),
@@ -118,6 +121,8 @@ class SetupFlowTest(unittest.TestCase):
                 time.sleep(0.05)
             self.assertTrue(sync["finished"])
             self.assertEqual(sync["krc"], 1)
+            # 歌词同步结束后自动补封面，无需用户手动跑 kg_covers.py
+            self.assertTrue(covers_fetch.called)
 
         # Now root should serve main app directly (200, not 302)
         with opener.open(self._url("/")) as resp:

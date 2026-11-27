@@ -163,6 +163,44 @@ html[data-journal], html[data-journal] body {
   outline: 1px solid var(--journal-accent);
   outline-offset: -1px;
 }
+[data-journal="pond"] .song-clear-all {
+  position: absolute;
+  right: max(2%, 8px);
+  top: 50%;
+  translate: 0 -50%;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #8a6e65;
+  font: clamp(10px, 2.1vw, 13px) / 1 "Kaiti SC", KaiTi, "Songti SC", SimSun, serif;
+  letter-spacing: .04em;
+  cursor: pointer;
+  opacity: .78;
+  transition: color .18s ease, opacity .18s ease, background .18s ease;
+}
+[data-journal="pond"] .song-clear-all[hidden] { display: none; }
+[data-journal="pond"] .song-clear-all:hover { color: #8e3e52; opacity: 1; }
+[data-journal="pond"] .song-clear-all.is-armed {
+  color: #b03a3a;
+  opacity: 1;
+  background: #b03a3a12;
+}
+[data-journal="pond"] .song-clear-all:focus-visible {
+  outline: 1px solid var(--journal-accent);
+  outline-offset: 2px;
+}
+[data-journal="pond"] .song-clear-status {
+  position: absolute;
+  right: max(2%, 8px);
+  top: calc(50% + clamp(11px, 2.4vh, 15px));
+  color: #99546b;
+  font: clamp(9px, 1.9vw, 11px) / 1 "Kaiti SC", KaiTi, "Songti SC", SimSun, serif;
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+[data-journal="pond"] .song-clear-status.is-visible { opacity: .85; }
 [data-journal="pond"] .favorite-songs .favorite-empty {
   padding: .32em .45em;
   color: #8c7a72;
